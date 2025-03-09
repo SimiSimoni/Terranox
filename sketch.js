@@ -327,7 +327,8 @@ function drawLevel()
     // Mostrar el texto antes de la batalla
     textSize(20);
     fill(255);
-    if (preBattleStep === 0) {
+    if (preBattleStep === 0) 
+    {
       text("Estás a punto de hacer historia, \n ¿te encuentras listo para enfrentarte a TerraNox?", width / 2, height / 2);
     } else if (preBattleStep === 1) {
       text("El aire es denso, cargado de humo y veneno."+"Frente a ti, la colosal silueta de TerraNox se alza,"+"con su cuerpo hecho de hollín, \n metal corroído y llamas verdes que arden en su interior.\n", width / 2, height / 2);
@@ -354,12 +355,13 @@ function drawLevel()
   text("Enemy's HP: " + enemy.hp, width * 0.9, height * 0.05);
 
   // Display idle animation
-  if (idleAnimation) {
-    image(idleAnimation, width * 0.6, height * 0.3, width * 0.3, width * 0.3);  // Adjusted position for boss animation
+  if (idleAnimation) 
+  {
+    image(idleAnimation, width * 0.6, height * 0.3, width * 0.3, width * 0.3); 
   }
 
   // Display player idle animation
-  image(player.idleGif, width * 0.1, height * 0.6, width * 0.2, width * 0.2);  // Adjusted position and size for player animation
+  image(player.idleGif, width * 0.1, height * 0.3, width * 0.2, width * 0.2); 
 }
 
 function checkWaste(selectedType) {
