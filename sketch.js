@@ -222,9 +222,9 @@ function mousePressed() {
       for (let i = 0; i < levels.length; i++) {
         if (
           mouseX > levels[i].x * width &&
-          mouseX < levels[i].x * width + 50 &&
+          mouseX < levels[i].x * width + width * 0.05 &&
           mouseY > levels[i].y * height &&
-          mouseY < levels[i].y * height + 50 &&
+          mouseY < levels[i].y * height + height * 0.05 &&
           levels[i].active
         ) {
           currentLevel = i;
@@ -245,7 +245,7 @@ function mousePressed() {
           mouseX > bin.x * width &&
           mouseX < bin.x * width + width * 0.1 &&
           mouseY > height * 0.75 &&
-          mouseY < height * 0.75 + height * 0.1
+          mouseY < height * 0.75 + width * 0.1 // Use width for height to maintain square shape
         ) {
           checkWaste(bin.type); // Llama a la función para verificar la respuesta
         }
@@ -305,9 +305,9 @@ function drawMap() {
     let level = levels[i];
 
     fill(level.active ? "green" : "red");
-    rect(level.x * width, level.y * height, 50, 50);
+    rect(level.x * width, level.y * height, width * 0.05, height * 0.05); // Maintain square shape
     fill(255);
-    text(i + 1, level.x * width + 25, level.y * height + 25);
+    text(i + 1, level.x * width + width * 0.025, level.y * height + height * 0.025);
   }
 }
 
@@ -340,7 +340,7 @@ function drawLevel()
   for (let bin of bins) 
   {
     fill(bin.color);
-    rect(bin.x * width, height * 0.75, width * 0.1, height * 0.1);
+    rect(bin.x * width, height * 0.75, width * 0.1, width * 0.1); // Maintain square shape
     fill(255);
     text(bin.type.toUpperCase(), bin.x * width + width * 0.05, height * 0.80);
   }
@@ -355,11 +355,11 @@ function drawLevel()
 
   // Display idle animation
   if (idleAnimation) {
-    image(idleAnimation, width * 0.6, height * 0.3, width * 0.3, height * 0.3);  // Adjusted position for boss animation
+    image(idleAnimation, width * 0.6, height * 0.3, width * 0.3, width * 0.3);  // Adjusted position for boss animation
   }
 
   // Display player idle animation
-  image(player.idleGif, width * 0.1, height * 0.7, width * 0.2, height * 0.2);  // Adjusted position and size for player animation
+  image(player.idleGif, width * 0.1, height * 0.6, width * 0.2, width * 0.2);  // Adjusted position and size for player animation
 }
 
 function checkWaste(selectedType) {
