@@ -357,7 +357,7 @@ function drawLevel()
   // Display idle animation
   if (idleAnimation) 
   {
-    image(idleAnimation, width * 0.6, height * 0.3, width * 0.3, width * 0.3); 
+    image(idleAnimation, width * 0.6, height * 0.3, width * 0.2, width * 0.2); 
   }
 
   // Display player idle animation
