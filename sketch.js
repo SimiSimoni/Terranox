@@ -153,7 +153,8 @@ function draw() {
   }
 }
 
-function drawIntro() {
+function drawIntro() 
+{
   textSize(16);
   fill(255);
   if (charIndex < introText[currentParagraph].length) 
@@ -175,21 +176,21 @@ function drawNameInput()
   fill(255);
   text("¿Cuál es tu nombre?", width / 2, height * 0.3);
 
-  if (!nameInput) 
-  {
+  // Ensure input and button elements are created once
+  if (!nameInput) {
     nameInput = createInput("").attribute("placeholder", "Escribe tu nombre...");
     nameInput.size(width * 0.6, height * 0.05);
     nameInput.position(width * 0.2, height * 0.4);
-    nameInput.style("font-size", "20px"); // Ensure readability
+    nameInput.style("font-size", "20px");
     nameInput.style("text-align", "center");
-    nameInput.elt.focus(); // Forces focus on mobile
+    nameInput.elt.focus(); // Attempt to focus the input field on mobile
 
     submitButton = createButton("Aceptar");
     submitButton.size(width * 0.6, height * 0.05);
     submitButton.position(width * 0.2, height * 0.5);
     submitButton.style("font-size", "20px");
-    submitButton.mousePressed(() => 
-      {
+
+    submitButton.mousePressed(() => {
       let enteredName = nameInput.value().trim();
       player.name = enteredName || "Jugador";
       nameInput.remove();
@@ -197,6 +198,11 @@ function drawNameInput()
       bgMusicIntro.stop();
       bgMusicGame.loop();
       gameState = "mapa";
+    });
+
+    // Additional touch handler to ensure keyboard appears
+    nameInput.mousePressed(() => {
+      nameInput.elt.focus();
     });
   }
 }
