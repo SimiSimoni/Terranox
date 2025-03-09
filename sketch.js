@@ -176,7 +176,8 @@ function drawNameInput() {
     nameInput.position(width / 2 - 50, height * 0.4);
     submitButton = createButton("Aceptar");
     submitButton.position(width / 2 + 50, height * 0.4);
-    submitButton.mousePressed(() => {
+    submitButton.mousePressed(() => 
+      {
       player.name = nameInput.value().trim() || "Jugador";
       nameInput.remove();
       submitButton.remove();
@@ -296,6 +297,71 @@ function resetGame() {
     attackAnimation = null;
     bgMusicGame.loop();  // Música de fondo del juego
   }
+}
+
+function touchStarted() 
+{
+  if (gameState === "intro") {
+    if (currentParagraph < introText.length - 1) {
+      currentParagraph++;
+      displayedText = "";
+      charIndex = 0;
+    } else {
+      introFinished = true;
+      gameState = "nameInput";
+      introFinished = false;
+      currentParagraph = 0;
+    }
+  } else if (isPreBattle) {
+    preBattleStep++;
+    if (preBattleStep === 3) {
+      enemy.name = "TerraNox";
+      bossMusicFinal.loop();
+      isPreBattle = false;
+      textSize(30);
+      text("—Insensato... ¿Crees que puedes detenerme? \n Soy la sombra de la humanidad, \n la consecuencia de su codicia. " +
+        "Con cada fábrica que arde,\n con cada río envenenado,\n mi poder crece. " +
+        "TÚ no eres rival para mí.", width / 2, height / 2);
+      setTimeout(() => {
+        gameState = "nivel";
+      }, 3000);
+    }
+  } else {
+    if (gameState === "mapa") {
+      for (let i = 0; i < levels.length; i++) {
+        if (
+          touchX > levels[i].x * width &&
+          touchX < levels[i].x * width + width * 0.05 &&
+          touchY > levels[i].y * height &&
+          touchY < levels[i].y * height + height * 0.05 &&
+          levels[i].active
+        ) {
+          currentLevel = i;
+          gameState = "nivel";
+          resetGame();
+          pickNewWaste();
+        }
+      }
+    } else if (gameState === "nivel" && gameOver) {
+      if (player.hp > 0 && currentLevel + 1 < levels.length) {
+        levels[currentLevel + 1].active = true;
+      }
+      gameState = "mapa";
+    } else if (gameState === "nivel") {
+      // Verificar si se hizo clic en un bote de basura
+      for (let bin of bins) {
+        if (
+          touchX > bin.x * width &&
+          touchX < bin.x * width + width * 0.1 &&
+          touchY > height * 0.75 &&
+          touchY < height * 0.75 + width * 0.1
+        ) {
+          checkWaste(bin.type);
+        }
+      }
+    }
+  }
+  return false; // Prevents default browser touch events (scrolling, etc.)
 }
 
 function drawMap() {
