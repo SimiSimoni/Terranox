@@ -350,12 +350,13 @@ function drawLevel()
   text("Enemy's HP: " + enemy.hp, 700, 20);
 
   // Display idle animation
-  if (idleAnimation) {
-    image(idleAnimation, width / 2 - 100, height / 2 - 100, 200, 200);
+  if (idleAnimation) 
+  {
+   image(idleAnimation, width - 300, height - 300, 200, 200);
   }
 
   // Display player idle animation
-  image(player.idleGif, 50, height - 150, 100, 100);  // Adjust position and size as needed
+  image(player.idleGif, 100, height - 200, 150, 150);  // Adjust position and size as needed
 }
 
 function checkWaste(selectedType) {
