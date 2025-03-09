@@ -167,15 +167,19 @@ function drawIntro() {
   text(displayedText, width / 2, height / 2);
 }
 
-function drawNameInput() {
+function drawNameInput() 
+{
   textSize(20);
   text("¿Cuál es tu nombre?", width / 2, height * 0.3);
   
-  if (!nameInput) {
+  if (!nameInput) 
+  {
     nameInput = createInput("");
-    nameInput.position(width / 2 - 50, height * 0.4);
+    nameInput.size(width * 0.6, height * 0.05); // Adjust size for mobile
+    nameInput.position(width * 0.2, height * 0.4);
     submitButton = createButton("Aceptar");
-    submitButton.position(width / 2 + 50, height * 0.4);
+    submitButton.size(width * 0.6, height * 0.05); // Adjust size for mobile
+    submitButton.position(width * 0.2, height * 0.5);
     submitButton.mousePressed(() => 
       {
       player.name = nameInput.value().trim() || "Jugador";
@@ -189,6 +193,7 @@ function drawNameInput() {
     });
   }
 }
+
 
 function mousePressed() {
   if (gameState === "intro") {
@@ -348,7 +353,6 @@ function touchStarted()
       }
       gameState = "mapa";
     } else if (gameState === "nivel") {
-      // Verificar si se hizo clic en un bote de basura
       for (let bin of bins) {
         if (
           touchX > bin.x * width &&
@@ -362,6 +366,7 @@ function touchStarted()
     }
   }
   return false; // Prevents default browser touch events (scrolling, etc.)
+}
 }
 
 function drawMap() {
