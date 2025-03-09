@@ -16,11 +16,11 @@ let wasteItems = {
 };
 
 let bins = [
-  { type: "plastico", x: 100, color: "#2196F3" },
-  { type: "organico", x: 250, color: "#4CAF50" },
-  { type: "papel", x: 400, color: "#FFC107" },
-  { type: "metal", x: 550, color: "#9E9E9E" },
-  { type: "electronico", x: 700, color: "#673AB7" }
+  { type: "plastico", x: 0.1, color: "#2196F3" }, // Updated to use relative positions
+  { type: "organico", x: 0.25, color: "#4CAF50" },
+  { type: "papel", x: 0.4, color: "#FFC107" },
+  { type: "metal", x: 0.55, color: "#9E9E9E" },
+  { type: "electronico", x: 0.7, color: "#673AB7" }
 ];
 
 let player = { name: "Jugador", hp: 10 };
@@ -31,9 +31,9 @@ let maxRounds = 10;
 let gameOver = false;
 let gameState = "intro";
 let levels = [
-  { x: 200, y: 200, active: true },
-  { x: 400, y: 200, active: false },
-  { x: 600, y: 200, active: false }
+  { x: 0.25, y: 0.5, active: true }, // Updated to use relative positions
+  { x: 0.5, y: 0.5, active: false },
+  { x: 0.75, y: 0.5, active: false }
 ];
 let currentLevel = -1;
 
@@ -110,7 +110,7 @@ function preload()
 
 function setup() 
 {
-  let canvas = createCanvas(800, 400, P2D);  // Create the canvas
+  let canvas = createCanvas(windowWidth, windowHeight, P2D);  // Create the canvas to cover the full window
   let context = canvas.drawingContext;
   context.willReadFrequently = true;  // Set the willReadFrequently attribute
 
@@ -132,6 +132,10 @@ function setup()
   } else {
     console.error("bgMusicIntro is not loaded properly.");
   }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);  // Ensure the canvas resizes with the window
 }
 
 function draw() {
@@ -165,13 +169,13 @@ function drawIntro() {
 
 function drawNameInput() {
   textSize(20);
-  text("¿Cuál es tu nombre?", width / 2, 150);
+  text("¿Cuál es tu nombre?", width / 2, height * 0.3);
   
   if (!nameInput) {
     nameInput = createInput("");
-    nameInput.position(width / 2 - 50, 180);
+    nameInput.position(width / 2 - 50, height * 0.4);
     submitButton = createButton("Aceptar");
-    submitButton.position(width / 2 + 50, 180);
+    submitButton.position(width / 2 + 50, height * 0.4);
     submitButton.mousePressed(() => {
       player.name = nameInput.value().trim() || "Jugador";
       nameInput.remove();
@@ -217,10 +221,10 @@ function mousePressed() {
     if (gameState === "mapa") {
       for (let i = 0; i < levels.length; i++) {
         if (
-          mouseX > levels[i].x &&
-          mouseX < levels[i].x + 50 &&
-          mouseY > levels[i].y &&
-          mouseY < levels[i].y + 50 &&
+          mouseX > levels[i].x * width &&
+          mouseX < levels[i].x * width + 50 &&
+          mouseY > levels[i].y * height &&
+          mouseY < levels[i].y * height + 50 &&
           levels[i].active
         ) {
           currentLevel = i;
@@ -238,10 +242,10 @@ function mousePressed() {
       // Verificar si se hizo clic en un bote de basura
       for (let bin of bins) {
         if (
-          mouseX > bin.x &&
-          mouseX < bin.x + 80 &&
-          mouseY > 300 &&
-          mouseY < 380
+          mouseX > bin.x * width &&
+          mouseX < bin.x * width + width * 0.1 &&
+          mouseY > height * 0.75 &&
+          mouseY < height * 0.75 + height * 0.1
         ) {
           checkWaste(bin.type); // Llama a la función para verificar la respuesta
         }
@@ -296,14 +300,14 @@ function resetGame() {
 
 function drawMap() {
   textSize(20);
-  text("Selecciona un nivel", width / 2, 50);
+  text("Selecciona un nivel", width / 2, height * 0.1);
   for (let i = 0; i < levels.length; i++) {
     let level = levels[i];
 
     fill(level.active ? "green" : "red");
-    rect(level.x, level.y, 50, 50);
+    rect(level.x * width, level.y * height, 50, 50);
     fill(255);
-    text(i + 1, level.x + 25, level.y + 25);
+    text(i + 1, level.x * width + 25, level.y * height + 25);
   }
 }
 
@@ -336,26 +340,26 @@ function drawLevel()
   for (let bin of bins) 
   {
     fill(bin.color);
-    rect(bin.x, 300, 80, 80);
+    rect(bin.x * width, height * 0.75, width * 0.1, height * 0.1);
     fill(255);
-    text(bin.type.toUpperCase(), bin.x + 40, 340);
+    text(bin.type.toUpperCase(), bin.x * width + width * 0.05, height * 0.80);
   }
 
   textSize(20);
-  text("Round " + round + " / " + maxRounds, width / 2, 30);
-  text("Desecho actual:", width / 2, 60);
-  text(currentWaste ? currentWaste.name : "Cargando...", width / 2, 90);
+  text("Round " + round + " / " + maxRounds, width / 2, height * 0.05);
+  text("Desecho actual:", width / 2, height * 0.15);
+  text(currentWaste ? currentWaste.name : "Cargando...", width / 2, height * 0.2);
   textSize(16);
-  text(player.name + "'s HP: " + player.hp, 100, 20);
-  text("Enemy's HP: " + enemy.hp, 700, 20);
+  text(player.name + "'s HP: " + player.hp, width * 0.1, height * 0.05);
+  text("Enemy's HP: " + enemy.hp, width * 0.9, height * 0.05);
 
-  let bossX = width / 2 - 100;
-  let bossY = height / 2 - 100;
-  let playerX = 50;
-  let playerY = height - 150;
+  // Display idle animation
+  if (idleAnimation) {
+    image(idleAnimation, width * 0.6, height * 0.3, width * 0.3, height * 0.3);  // Adjusted position for boss animation
+  }
 
-image(idleAnimation, bossX, bossY, 200, 200);
-image(player.idleGif, playerX, playerY, 100, 100);
+  // Display player idle animation
+  image(player.idleGif, width * 0.1, height * 0.7, width * 0.2, height * 0.2);  // Adjusted position and size for player animation
 }
 
 function checkWaste(selectedType) {
