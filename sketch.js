@@ -156,7 +156,8 @@ function draw() {
 function drawIntro() {
   textSize(16);
   fill(255);
-  if (charIndex < introText[currentParagraph].length) {
+  if (charIndex < introText[currentParagraph].length) 
+  {
     displayedText = introText[currentParagraph].substring(0, charIndex);
     charIndex += textSpeed;
   } else {
@@ -169,45 +170,55 @@ function drawIntro() {
 
 function drawNameInput() 
 {
+  background(0);
   textSize(20);
+  fill(255);
   text("¿Cuál es tu nombre?", width / 2, height * 0.3);
-  
+
   if (!nameInput) 
   {
-    nameInput = createInput("");
-    nameInput.size(width * 0.6, height * 0.05); // Adjust size for mobile
+    nameInput = createInput("").attribute("placeholder", "Escribe tu nombre...");
+    nameInput.size(width * 0.6, height * 0.05);
     nameInput.position(width * 0.2, height * 0.4);
+    nameInput.style("font-size", "20px"); // Ensure readability
+    nameInput.style("text-align", "center");
+    nameInput.elt.focus(); // Forces focus on mobile
+
     submitButton = createButton("Aceptar");
-    submitButton.size(width * 0.6, height * 0.05); // Adjust size for mobile
+    submitButton.size(width * 0.6, height * 0.05);
     submitButton.position(width * 0.2, height * 0.5);
+    submitButton.style("font-size", "20px");
     submitButton.mousePressed(() => 
       {
-      player.name = nameInput.value().trim() || "Jugador";
+      let enteredName = nameInput.value().trim();
+      player.name = enteredName || "Jugador";
       nameInput.remove();
       submitButton.remove();
-    
       bgMusicIntro.stop();
       bgMusicGame.loop();
-      
       gameState = "mapa";
     });
   }
 }
 
 
-function mousePressed() {
-  if (gameState === "intro") {
+function mousePressed() 
+{
+  if (gameState === "intro") 
+  {
     if (currentParagraph < introText.length - 1) {
       currentParagraph++;
       displayedText = "";
       charIndex = 0;
-    } else {
+    } else 
+    {
       introFinished = true;
       gameState = "nameInput";
       introFinished = false;
       currentParagraph = 0;
     }
-  } else if (isPreBattle) {
+  } else if (isPreBattle) 
+  {
     preBattleStep++;
     if (preBattleStep === 3) 
     {
@@ -306,12 +317,14 @@ function resetGame() {
 
 function touchStarted() 
 {
-  if (gameState === "intro") {
+  if (gameState === "intro") 
+  {
     if (currentParagraph < introText.length - 1) {
       currentParagraph++;
       displayedText = "";
       charIndex = 0;
-    } else {
+    } else 
+    {
       introFinished = true;
       gameState = "nameInput";
       introFinished = false;
@@ -366,7 +379,6 @@ function touchStarted()
     }
   }
   return false; // Prevents default browser touch events (scrolling, etc.)
-}
 }
 
 function drawMap() {
