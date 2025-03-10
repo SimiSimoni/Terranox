@@ -240,10 +240,10 @@ function mousePressed()
     if (gameState === "mapa") {
       for (let i = 0; i < levels.length; i++) {
         if (
-          mouseX > levels[i].x * width &&
-          mouseX < levels[i].x * width + min(width, height) * 0.05 &&
-          mouseY > levels[i].y * height &&
-          mouseY < levels[i].y * height + min(width, height) * 0.05 &&
+          mouseX > levels[i].x * width - levelSize / 2 && 
+          mouseX < levels[i].x * width + levelSize / 2 &&
+          mouseY > levels[i].y * height - levelSize / 2 &&
+          mouseY < levels[i].y * height + levelSize / 2 &&
           levels[i].active
         ) {
           currentLevel = i;
