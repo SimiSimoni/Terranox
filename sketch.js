@@ -16,7 +16,7 @@ let wasteItems = {
 };
 
 let bins = [
-  { type: "plastico", x: 0.2, color: "#2196F3" }, // Updated to use relative positions
+  { type: "plastico", x: 0.2, color: "#2196F3" }, // Adjusted to use relative positions
   { type: "organico", x: 0.35, color: "#4CAF50" },
   { type: "papel", x: 0.5, color: "#FFC107" },
   { type: "metal", x: 0.65, color: "#9E9E9E" },
@@ -294,6 +294,7 @@ function resetGame() {
   preBossMusic.stop();  
   bossMusicFinal.stop();  
 
+  // Update enemy name dynamically based on the current level
   if (currentLevel === 0) 
   {
     enemy.name = bosses[0].name;
@@ -430,7 +431,7 @@ function drawLevel()
   for (let bin of bins) 
   {
     fill(bin.color);
-    rect(bin.x * width, height * 0.75, width * 0.1, width * 0.1); // Maintain square shape
+    rect(bin.x * width, height * 0.75, width * 0.1, width * 0.1); 
     fill(255);
     text(bin.type.toUpperCase(), bin.x * width + width * 0.05, height * 0.80);
   }
