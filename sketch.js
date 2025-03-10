@@ -102,10 +102,6 @@ function preload()
   bosses[1].attackGif = loadImage("boss2_attack.gif");
   bosses[2].idleGif = loadImage("boss3_idle.gif");
   bosses[2].attackGif = loadImage("boss3_attack.gif");
-
-  // Carga de GIFs del protagonista
-  player.idleGif = loadImage("player_idle.gif");
-  player.attackGif = loadImage("player_attack.gif");
 }
 
 function setup() 
@@ -444,14 +440,7 @@ function drawLevel()
   text(player.name + "'s HP: " + player.hp, width * 0.1, height * 0.05);
   text(enemy.name + "'s HP: "+ enemy.hp, width * 0.9, height * 0.05);
 
-  // Display idle animation
-  if (idleAnimation) 
-  {
-    image(idleAnimation, width * 0.6, height * 0.3, width * 0.2, width * 0.2); 
-  }
-
-  // Display player idle animation
-  image(player.idleGif, width * 0.1, height * 0.3, width * 0.2, width * 0.2); 
+  image(bosses[currentLevel].idleGif, width / 2 - width * 0.1, height / 2 - height * 0.2, width * 0.2, height * 0.3);
 }
 
 function checkWaste(selectedType) {
