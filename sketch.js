@@ -462,7 +462,7 @@ function checkWaste(selectedType)
     console.log("Incorrecto. -2 de vida");
     player.hp -= 2;
     enemyAttacking = true;
-    setTimeout(() => {enemyAttacking = false;}, 500);
+    setTimeout(() => {enemyAttacking = false;}, 600);
   }
 
   round++;
