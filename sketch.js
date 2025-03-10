@@ -435,7 +435,7 @@ function drawLevel()
     fill(bin.color);
     rect(bin.x * width, height * 0.75, width * 0.1, width * 0.1); 
     fill(255);
-    text(bin.type.toUpperCase(), bin.x * width + width * 0.05, height * 0.80);
+    text(bin.type.toUpperCase(), bin.x * width + width * 0.05, height * 0.85);
   }
 
   textSize(20);
