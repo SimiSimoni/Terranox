@@ -96,7 +96,7 @@ function preload()
   bosses[1].music = bossMusic2;
   bosses[2].music = bossMusicFinal;
 
-bosses[0].idleGif = loadImage("boss1_idle.gif", 
+  bosses[0].idleGif = loadImage("boss1_idle.gif", 
     () => console.log("boss1_idle.gif loaded successfully"), 
     (err) => console.error("Error loading boss1_idle.gif:", err));
   bosses[0].attackGif = loadImage("boss1_attack.gif", 
@@ -125,7 +125,6 @@ bosses[0].idleGif = loadImage("boss1_idle.gif",
   bosses[2].damageGif = loadImage("boss3_damage.gif", 
     () => console.log("boss3_damage.gif loaded successfully"), 
     (err) => console.error("Error loading boss3_damage.gif:", err));
-
 }
 
 function setup() 
@@ -226,7 +225,6 @@ function drawNameInput()
     });
   }
 }
-
 
 function mousePressed() 
 {
