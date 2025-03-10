@@ -92,20 +92,16 @@ function preload()
     () => console.log("preBossMusic cargado correctamente"), 
     (err) => console.error("Error cargando preBossMusic:", err)); 
 
-  // Asignar la música a los jefes
   bosses[0].music = bossMusic1;
   bosses[1].music = bossMusic2;
   bosses[2].music = bossMusicFinal;
 
-  // Carga de imágenes de los jefes
   bosses[0].idleGif = loadImage("boss1_idle.gif");
   bosses[0].attackGif = loadImage("boss1_attack.gif");
   bosses[0].damageGif = loadImage("boss1_damage.gif");
-
   bosses[1].idleGif = loadImage("boss2_idle.gif");
   bosses[1].attackGif = loadImage("boss2_attack.gif");
   bosses[1].damageGif = loadImage("boss2_damage.gif");
-
   bosses[2].idleGif = loadImage("boss3_idle.gif");
   bosses[2].attackGif = loadImage("boss3_attack.gif");
   bosses[2].damageGif = loadImage("boss3_damage.gif");
