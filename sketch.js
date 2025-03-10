@@ -96,15 +96,35 @@ function preload()
   bosses[1].music = bossMusic2;
   bosses[2].music = bossMusicFinal;
 
-  bosses[0].idleGif = loadImage("boss1_idle.gif");
-  bosses[0].attackGif = loadImage("boss1_attack.gif");
-  bosses[0].damageGif = loadImage("boss1_damage.gif");
-  bosses[1].idleGif = loadImage("boss2_idle.gif");
-  bosses[1].attackGif = loadImage("boss2_attack.gif");
-  bosses[1].damageGif = loadImage("boss2_damage.gif");
-  bosses[2].idleGif = loadImage("boss3_idle.gif");
-  bosses[2].attackGif = loadImage("boss3_attack.gif");
-  bosses[2].damageGif = loadImage("boss3_damage.gif");
+bosses[0].idleGif = loadImage("boss1_idle.gif", 
+    () => console.log("boss1_idle.gif loaded successfully"), 
+    (err) => console.error("Error loading boss1_idle.gif:", err));
+  bosses[0].attackGif = loadImage("boss1_attack.gif", 
+    () => console.log("boss1_attack.gif loaded successfully"), 
+    (err) => console.error("Error loading boss1_attack.gif:", err));
+  bosses[0].damageGif = loadImage("boss1_damage.gif", 
+    () => console.log("boss1_damage.gif loaded successfully"), 
+    (err) => console.error("Error loading boss1_damage.gif:", err));
+
+  bosses[1].idleGif = loadImage("boss2_idle.gif", 
+    () => console.log("boss2_idle.gif loaded successfully"), 
+    (err) => console.error("Error loading boss2_idle.gif:", err));
+  bosses[1].attackGif = loadImage("boss2_attack.gif", 
+    () => console.log("boss2_attack.gif loaded successfully"), 
+    (err) => console.error("Error loading boss2_attack.gif:", err));
+  bosses[1].damageGif = loadImage("boss2_damage.gif", 
+    () => console.log("boss2_damage.gif loaded successfully"), 
+    (err) => console.error("Error loading boss2_damage.gif:", err));
+
+  bosses[2].idleGif = loadImage("boss3_idle.gif", 
+    () => console.log("boss3_idle.gif loaded successfully"), 
+    (err) => console.error("Error loading boss3_idle.gif:", err));
+  bosses[2].attackGif = loadImage("boss3_attack.gif", 
+    () => console.log("boss3_attack.gif loaded successfully"), 
+    (err) => console.error("Error loading boss3_attack.gif:", err));
+  bosses[2].damageGif = loadImage("boss3_damage.gif", 
+    () => console.log("boss3_damage.gif loaded successfully"), 
+    (err) => console.error("Error loading boss3_damage.gif:", err));
 
 }
 
