@@ -444,8 +444,8 @@ function drawLevel()
   text("Desecho actual:", width / 2, height * 0.15);
   text(currentWaste ? currentWaste.name : "Cargando...", width / 2, height * 0.2);
   textSize(16);
-  text(player.name + "'s HP: " + player.hp, width * 0.1, height * 0.05);
-  text(enemy.name + "'s HP: "+ enemy.hp, width * 0.9, height * 0.05);
+  text(player.name + "'s HP: " + player.hp, width * 0.2, height * 0.05);
+  text(enemy.name + "'s HP: "+ enemy.hp, width * 0.8, height * 0.05);
 
   let enemyGif = enemyAttacking ? bosses[currentLevel].attackGif : bosses[currentLevel].idleGif;
   image(enemyGif, width / 2 - width * 0.1, height / 2 - height * 0.2, width * 0.2, height * 0.3);
