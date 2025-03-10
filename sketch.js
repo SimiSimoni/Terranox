@@ -238,14 +238,18 @@ function mousePressed()
     }
   } else {
     if (gameState === "mapa") {
-      for (let i = 0; i < levels.length; i++) {
-        if (
+      for (let i = 0; i < levels.length; i++) 
+      {
+        let levelSize = min(width, height) * 0.1; // Increase the size of the clickable area
+        if 
+          (
           mouseX > levels[i].x * width - levelSize / 2 && 
           mouseX < levels[i].x * width + levelSize / 2 &&
           mouseY > levels[i].y * height - levelSize / 2 &&
           mouseY < levels[i].y * height + levelSize / 2 &&
           levels[i].active
-        ) {
+          ) 
+        {
           currentLevel = i;
           gameState = "nivel";
           resetGame();
