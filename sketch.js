@@ -456,12 +456,13 @@ function checkWaste(selectedType)
   if (currentWaste && selectedType === currentWaste.type) {
     console.log("¡Correcto! +2 de ataque");
     enemy.hp -= 2; // Reducir vida del enemigo si aciertas
-    enemyAttacking = true;
-    setTimeout(() => {enemyAttacking = false;}, 500);
-  } else 
+  } 
+  else 
   {
     console.log("Incorrecto. -2 de vida");
     player.hp -= 2;
+    enemyAttacking = true;
+    setTimeout(() => {enemyAttacking = false;}, 500);
   }
 
   round++;
