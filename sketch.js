@@ -4,7 +4,6 @@ let bossMusic1, bossMusic2;
 let preBossMusic, preBossText, bossMusicFinal, finalBossText;
 let isPreBattle = false; 
 let enemyAttacking = false;
-let enemyDamaged = false;
 let preBattleStep = 0;
 
 let wasteItems = {
@@ -92,40 +91,18 @@ function preload()
     () => console.log("preBossMusic cargado correctamente"), 
     (err) => console.error("Error cargando preBossMusic:", err)); 
 
+  // Asignar la música a los jefes
   bosses[0].music = bossMusic1;
   bosses[1].music = bossMusic2;
   bosses[2].music = bossMusicFinal;
 
-bosses[0].idleGif = loadImage("boss1_idle.gif", 
-    () => console.log("boss1_idle.gif loaded successfully"), 
-    (err) => console.error("Error loading boss1_idle.gif:", err));
-  bosses[0].attackGif = loadImage("boss1_attack.gif", 
-    () => console.log("boss1_attack.gif loaded successfully"), 
-    (err) => console.error("Error loading boss1_attack.gif:", err));
-  bosses[0].damageGif = loadImage("boss1_damage.gif", 
-    () => console.log("boss1_damage.gif loaded successfully"), 
-    (err) => console.error("Error loading boss1_damage.gif:", err));
-
-  bosses[1].idleGif = loadImage("boss2_idle.gif", 
-    () => console.log("boss2_idle.gif loaded successfully"), 
-    (err) => console.error("Error loading boss2_idle.gif:", err));
-  bosses[1].attackGif = loadImage("boss2_attack.gif", 
-    () => console.log("boss2_attack.gif loaded successfully"), 
-    (err) => console.error("Error loading boss2_attack.gif:", err));
-  bosses[1].damageGif = loadImage("boss2_damage.gif", 
-    () => console.log("boss2_damage.gif loaded successfully"), 
-    (err) => console.error("Error loading boss2_damage.gif:", err));
-
-  bosses[2].idleGif = loadImage("boss3_idle.gif", 
-    () => console.log("boss3_idle.gif loaded successfully"), 
-    (err) => console.error("Error loading boss3_idle.gif:", err));
-  bosses[2].attackGif = loadImage("boss3_attack.gif", 
-    () => console.log("boss3_attack.gif loaded successfully"), 
-    (err) => console.error("Error loading boss3_attack.gif:", err));
-  bosses[2].damageGif = loadImage("boss3_damage.gif", 
-    () => console.log("boss3_damage.gif loaded successfully"), 
-    (err) => console.error("Error loading boss3_damage.gif:", err));
-
+  // Carga de imágenes de los jefes
+  bosses[0].idleGif = loadImage("boss1_idle.gif");
+  bosses[0].attackGif = loadImage("boss1_attack.gif");
+  bosses[1].idleGif = loadImage("boss2_idle.gif");
+  bosses[1].attackGif = loadImage("boss2_attack.gif");
+  bosses[2].idleGif = loadImage("boss3_idle.gif");
+  bosses[2].attackGif = loadImage("boss3_attack.gif");
 }
 
 function setup() 
@@ -470,27 +447,15 @@ function drawLevel()
   text(player.name + "'s HP: " + player.hp, width * 0.2, height * 0.05);
   text(enemy.name + "'s HP: "+ enemy.hp, width * 0.8, height * 0.05);
 
-  let enemyGif;
-if (enemyDamaged) 
-{
-  enemyGif = bosses[currentLevel].damageGif;
-} else if (enemyAttacking) 
-{
-  enemyGif = bosses[currentLevel].attackGif;
-} else 
-{
-  enemyGif = bosses[currentLevel].idleGif;
-}
+  let enemyGif = enemyAttacking ? bosses[currentLevel].attackGif : bosses[currentLevel].idleGif;
+  image(enemyGif, width / 2 - width * 0.1, height / 2 - height * 0.2, width * 0.2, height * 0.3);
 }
 
 function checkWaste(selectedType) 
 {
-  if (currentWaste && selectedType === currentWaste.type) 
-  {
+  if (currentWaste && selectedType === currentWaste.type) {
     console.log("¡Correcto! +2 de ataque");
     enemy.hp -= 2; // Reducir vida del enemigo si aciertas
-    enemyDamaged = true;
-    setTimeout(() => { enemyDamaged = false; }, 600);
   } 
   else 
   {
