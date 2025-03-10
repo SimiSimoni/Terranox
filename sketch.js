@@ -245,11 +245,10 @@ function mousePressed()
         let levelSize = min(width, height) * 0.1; // Increase the size of the clickable area
         if 
           (
-          mouseX > levels[i].x * width  && 
-          mouseX < levels[i].x * width + width  * 0.05 &&
-          mouseY > levels[i].y * height &&
-          mouseY < levels[i].y * height + height * 0.05 &&
-             touchX > levels[i].x * width &&            
+            mouseX > levels[i].x * width &&
+            mouseX < levels[i].x * width + width * 0.05 &&
+            mouseY > levels[i].y * height &&
+            mouseY < levels[i].y * height + height * 0.05 &&
           levels[i].active
           ) 
         {
