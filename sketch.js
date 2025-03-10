@@ -55,9 +55,9 @@ let introFinished = false;
 let nameInput, submitButton;
 
 let bosses = [
-  { name: "TerraNox Jr." },
-  { name: "TerraNox Supremo" },
-  { name: "TerraNox Ultimo" }
+  { name: "RSU" },
+  { name: "Avaricia" },
+  { name: "TerraNox" }
 ];
 
 function preload() 
@@ -443,8 +443,8 @@ function drawLevel()
   text("Desecho actual:", width / 2, height * 0.15);
   text(currentWaste ? currentWaste.name : "Cargando...", width / 2, height * 0.2);
   textSize(16);
-  text(player.name + "'s HP: " + player.hp, width * 0.15, height * 0.05);
-  text(enemy.name + "'s HP: "+ enemy.hp, width * 0.85, height * 0.05);
+  text(player.name + "'s HP: " + player.hp, width * 0.2, height * 0.05);
+  text(enemy.name + "'s HP: "+ enemy.hp, width * 0.8, height * 0.05);
 
   image(bosses[currentLevel].idleGif, width / 2 - width * 0.1, height / 2 - height * 0.2, width * 0.2, height * 0.3);
 }
