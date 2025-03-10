@@ -16,11 +16,11 @@ let wasteItems = {
 };
 
 let bins = [
-  { type: "plastico", x: 0.2, color: "#2196F3" }, // Adjusted to use relative positions
-  { type: "organico", x: 0.35, color: "#4CAF50" },
-  { type: "papel", x: 0.5, color: "#FFC107" },
-  { type: "metal", x: 0.65, color: "#9E9E9E" },
-  { type: "electronico", x: 0.8, color: "#673AB7" }
+  { type: "plastico", x: 0.15, color: "#2196F3" }, 
+  { type: "organico", x: 0.3, color: "#4CAF50" },
+  { type: "papel", x: 0.45, color: "#FFC107" },
+  { type: "metal", x: 0.6, color: "#9E9E9E" },
+  { type: "electronico", x: 0.75, color: "#673AB7" }
 ];
 
 let player = { name: "Jugador", hp: 10 };
@@ -245,9 +245,9 @@ function mousePressed()
       for (let i = 0; i < levels.length; i++) {
         if (
           mouseX > levels[i].x * width &&
-          mouseX < levels[i].x * width + width * 0.05 &&
+          mouseX < levels[i].x * width + min(width, height) * 0.05 &&
           mouseY > levels[i].y * height &&
-          mouseY < levels[i].y * height + height * 0.05 &&
+          mouseY < levels[i].y * height + min(width, height) * 0.05 &&
           levels[i].active
         ) {
           currentLevel = i;
@@ -442,7 +442,7 @@ function drawLevel()
   text(currentWaste ? currentWaste.name : "Cargando...", width / 2, height * 0.2);
   textSize(16);
   text(player.name + "'s HP: " + player.hp, width * 0.1, height * 0.05);
-  text("Enemy's HP: " + enemy.hp, width * 0.9, height * 0.05);
+  text(enemy.name + "'s HP: "+ enemy.hp, width * 0.9, height * 0.05);
 
   // Display idle animation
   if (idleAnimation) 
