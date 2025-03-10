@@ -17,11 +17,11 @@ let wasteItems = {
 };
 
 let bins = [
-  { type: "plastico", x: 0.15, color: "#2196F3" }, 
-  { type: "organico", x: 0.3, color: "#4CAF50" },
-  { type: "papel", x: 0.45, color: "#FFC107" },
-  { type: "metal", x: 0.6, color: "#9E9E9E" },
-  { type: "electronico", x: 0.75, color: "#673AB7" }
+  { type: "plastico", x: 0.15, color: "#fc7f23" }, 
+  { type: "organico", x: 0.3, color: "#fc7f23" },
+  { type: "papel", x: 0.45, color: "#fc7f23" },
+  { type: "metal", x: 0.6, color: "#fc7f23" },
+  { type: "electronico", x: 0.75, color: "#fc7f23" }
 ];
 
 let player = { name: "Jugador", hp: 10 };
