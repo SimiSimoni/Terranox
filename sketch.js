@@ -264,12 +264,14 @@ function mousePressed()
     } else if (gameState === "nivel") {
       // Verificar si se hizo clic en un bote de basura
       for (let bin of bins) {
-        if (
+        if 
+          (
           mouseX > bin.x * width &&
           mouseX < bin.x * width + width * 0.1 &&
           mouseY > height * 0.75 &&
           mouseY < height * 0.75 + width * 0.1 // Use width for height to maintain square shape
-        ) {
+        ) 
+        {
           checkWaste(bin.type); // Llama a la función para verificar la respuesta
         }
       }
@@ -441,8 +443,8 @@ function drawLevel()
   text("Desecho actual:", width / 2, height * 0.15);
   text(currentWaste ? currentWaste.name : "Cargando...", width / 2, height * 0.2);
   textSize(16);
-  text(player.name + "'s HP: " + player.hp, width * 0.1, height * 0.05);
-  text(enemy.name + "'s HP: "+ enemy.hp, width * 0.9, height * 0.05);
+  text(player.name + "'s HP: " + player.hp, width * 0.15, height * 0.05);
+  text(enemy.name + "'s HP: "+ enemy.hp, width * 0.85, height * 0.05);
 
   image(bosses[currentLevel].idleGif, width / 2 - width * 0.1, height / 2 - height * 0.2, width * 0.2, height * 0.3);
 }
