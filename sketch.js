@@ -399,13 +399,14 @@ function touchStarted()
 function drawMap() {
   textSize(20);
   text("Selecciona un nivel", width / 2, height * 0.1);
-  for (let i = 0; i < levels.length; i++) {
+  for (let i = 0; i < levels.length; i++) 
+  {
     let level = levels[i];
 
     fill(level.active ? "green" : "red");
     rect(level.x * width, level.y * height, width * 0.05, height * 0.05); 
     fill(255);
-    text(i + 1, level.x * width + width * 0.025, level.y * height + height * 0.025);
+    text(i + 1, level.x * width + width * 0.025, level.y * height + height * 0.03);
   }
 }
 
