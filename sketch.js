@@ -32,7 +32,7 @@ let maxRounds = 10;
 let gameOver = false;
 let gameState = "intro";
 let levels = [
-  { x: 0.25, y: 0.5, active: true }, // Updated to use relative positions
+  { x: 0.25, y: 0.5, active: true },
   { x: 0.5, y: 0.5, active: false },
   { x: 0.75, y: 0.5, active: false }
 ];
@@ -108,9 +108,9 @@ function preload()
 
 function setup() 
 {
-  let canvas = createCanvas(windowWidth, windowHeight, P2D);  // Create the canvas to cover the full window
+  let canvas = createCanvas(windowWidth, windowHeight, P2D);
   let context = canvas.drawingContext;
-  context.willReadFrequently = true;  // Set the willReadFrequently attribute
+  context.willReadFrequently = true;
 
   textAlign(CENTER, CENTER);
   
@@ -119,13 +119,14 @@ function setup()
     textFont(arcadeFont);
   } else {
     console.error("La fuente no se cargó correctamente.");
-    textFont("Arial"); // Usar una fuente alternativa si no se carga correctamente
+    textFont("Arial");
   }
 
   userStartAudio();
 
   // Ensure the intro music is loaded before playing
-  if (bgMusicIntro && bgMusicIntro.isLoaded()) {
+  if (bgMusicIntro && bgMusicIntro.isLoaded()) 
+  {
     bgMusicIntro.loop();
   } else {
     console.error("bgMusicIntro is not loaded properly.");
@@ -133,14 +134,15 @@ function setup()
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);  // Ensure the canvas resizes with the window
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
   background(0);
   fill(255);
 
-  if (gameState === "intro") {
+  if (gameState === "intro") 
+  {
     drawIntro();
   } else if (gameState === "nameInput") {
     drawNameInput();
@@ -181,7 +183,7 @@ function drawNameInput()
     nameInput.position(width * 0.2, height * 0.4);
     nameInput.style("font-size", "20px");
     nameInput.style("text-align", "center");
-    nameInput.elt.focus(); // Attempt to focus the input field on mobile
+    nameInput.elt.focus();
 
     submitButton = createButton("Aceptar");
     submitButton.size(width * 0.6, height * 0.05);
@@ -197,9 +199,8 @@ function drawNameInput()
       bgMusicGame.loop();
       gameState = "mapa";
     });
-
-    // Additional touch handler to ensure keyboard appears
-    nameInput.mousePressed(() => {
+    nameInput.mousePressed(() => 
+      {
       nameInput.elt.focus();
     });
   }
@@ -210,7 +211,8 @@ function mousePressed()
 {
   if (gameState === "intro") 
   {
-    if (currentParagraph < introText.length - 1) {
+    if (currentParagraph < introText.length - 1) 
+    {
       currentParagraph++;
       displayedText = "";
       charIndex = 0;
@@ -258,7 +260,8 @@ function mousePressed()
           pickNewWaste();
         }
       }
-    } else if (gameState === "nivel" && gameOver) {
+    } else if (gameState === "nivel" && gameOver) 
+    {
       if (player.hp > 0 && currentLevel + 1 < levels.length) {
         levels[currentLevel + 1].active = true;
       }
@@ -272,18 +275,20 @@ function mousePressed()
           mouseY > height * 0.75 &&
           mouseY < height * 0.75 + width * 0.1 // Use width for height to maintain square shape
         ) {
-          checkWaste(bin.type); // Llama a la función para verificar la respuesta
+          checkWaste(bin.type);
         }
       }
     }
   }
 }
 
-function pickNewWaste() {
+function pickNewWaste() 
+{
   currentWaste = random(wasteItems.easy);
 }
 
-function resetGame() {
+function resetGame() 
+{
   player.hp = 10;
   enemy.hp = 10;
   round = 1;
@@ -296,7 +301,6 @@ function resetGame() {
   preBossMusic.stop();  
   bossMusicFinal.stop();  
 
-  // Update enemy name dynamically based on the current level
   if (currentLevel === 0) 
   {
     enemy.name = bosses[0].name;
@@ -314,13 +318,13 @@ function resetGame() {
     enemy.name = bosses[2].name;
     idleAnimation = bosses[2].idleGif;
     attackAnimation = bosses[2].attackGif;
-    bossMusicFinal.loop();  // Iniciar música de jefe final
+    bossMusicFinal.loop(); 
   } else 
   {
     enemy.name = "Enemigo Común";
     idleAnimation = null;
     attackAnimation = null;
-    bgMusicGame.loop();  // Música de fondo del juego
+    bgMusicGame.loop(); 
   }
 }
 
@@ -328,7 +332,8 @@ function touchStarted()
 {
   if (gameState === "intro") 
   {
-    if (currentParagraph < introText.length - 1) {
+    if (currentParagraph < introText.length - 1) 
+    {
       currentParagraph++;
       displayedText = "";
       charIndex = 0;
@@ -341,7 +346,8 @@ function touchStarted()
     }
   } else if (isPreBattle) {
     preBattleStep++;
-    if (preBattleStep === 3) {
+    if (preBattleStep === 3) 
+    {
       enemy.name = "TerraNox";
       bossMusicFinal.loop();
       isPreBattle = false;
@@ -387,7 +393,7 @@ function touchStarted()
       }
     }
   }
-  return false; // Prevents default browser touch events (scrolling, etc.)
+  return false;
 }
 
 function drawMap() {
@@ -397,7 +403,7 @@ function drawMap() {
     let level = levels[i];
 
     fill(level.active ? "green" : "red");
-    rect(level.x * width, level.y * height, width * 0.05, height * 0.05); // Maintain square shape
+    rect(level.x * width, level.y * height, width * 0.05, height * 0.05); 
     fill(255);
     text(i + 1, level.x * width + width * 0.025, level.y * height + height * 0.025);
   }
@@ -467,6 +473,6 @@ function checkWaste(selectedType) {
   if (round > maxRounds || player.hp <= 0 || enemy.hp <= 0) {
     gameOver = true;
   } else {
-    pickNewWaste(); // Elegir un nuevo desecho
+    pickNewWaste();
   }
 }
