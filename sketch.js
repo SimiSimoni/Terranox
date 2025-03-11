@@ -438,10 +438,14 @@ function drawLevel()
   
   for (let bin of bins) 
   {
-    fill(bin.color);
-    rect(bin.x * width, height * 0.75, width * 0.1, width * 0.1); 
+    stroke(bin.color);
+    strokeWeight(4);
+    noFill();
+    rect(bin.x * width, height * 0.8, width * 0.12, height * 0.12, 10);
     fill(255);
-    text(bin.type.toUpperCase(), bin.x * width + width * 0.05, height * 0.85);
+    noStroke();
+    textSize(14);
+    text(bin.type.toUpperCase(), bin.x * width + width * 0.06, height * 0.88);
   }
 
   textSize(20);
