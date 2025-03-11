@@ -406,7 +406,7 @@ function drawMap() {
     fill(level.active ? "green" : "red");
     rect(level.x * width, level.y * height, width * 0.05, height * 0.05); 
     fill(255);
-    text(i + 1, level.x * width + width * 0.025, level.y * height + height * 0.03);
+    text(i + 1, level.x * width + width * 0.025, level.y * height + height * 0.05);
   }
 }
 
@@ -446,7 +446,7 @@ function drawLevel()
     fill(255);
     noStroke();
     textSize(14);
-    text(bin.type.toUpperCase(), bin.x * width + width * 0.06, height * 0.88);
+    text(bin.type.toUpperCase(), bin.x * width + width * 0.06, height * 0.85);
   }
 
   textSize(20);
