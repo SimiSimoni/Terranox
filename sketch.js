@@ -406,7 +406,7 @@ function drawMap() {
     fill(level.active ? "green" : "red");
     rect(level.x * width, level.y * height, width * 0.05, height * 0.05); 
     fill(255);
-    text(i + 1, level.x * width + width * 0.025, level.y * height + height * 0.05);
+    text(i + 1, level.x * width + width * 0.025, level.y * height + height * 0.02);
   }
 }
 
