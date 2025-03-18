@@ -185,6 +185,7 @@ function touchStarted() {
 }
 
 function handleInput(x, y) {
+  console.log(`handleInput called with x: ${x}, y: ${y}`);
   if (gameState === "intro") {
     handleIntroInput();
   } else if (isPreBattle) {
@@ -197,6 +198,7 @@ function handleInput(x, y) {
 }
 
 function handleIntroInput() {
+  console.log("handleIntroInput called");
   if (currentParagraph < INTRO_TEXT.length - 1) {
     currentParagraph++;
     displayedText = "";
@@ -210,6 +212,7 @@ function handleIntroInput() {
 }
 
 function handlePreBattleInput() {
+  console.log("handlePreBattleInput called");
   preBattleStep++;
   if (preBattleStep === 3) {
     enemy.name = "TerraNox";
@@ -226,6 +229,7 @@ function handlePreBattleInput() {
 }
 
 function handleMapInput(x, y) {
+  console.log(`handleMapInput called with x: ${x}, y: ${y}`);
   for (let i = 0; i < LEVELS.length; i++) {
     let levelSize = min(width, height) * 0.1;
     if (
@@ -235,6 +239,7 @@ function handleMapInput(x, y) {
       y < LEVELS[i].y * height + height * 0.05 &&
       LEVELS[i].active
     ) {
+      console.log(`Level ${i} selected`);
       currentLevel = i;
       gameState = "nivel";
       resetGame();
@@ -244,6 +249,7 @@ function handleMapInput(x, y) {
 }
 
 function handleLevelInput(x, y) {
+  console.log(`handleLevelInput called with x: ${x}, y: ${y}`);
   if (gameOver) {
     if (player.hp > 0 && currentLevel + 1 < LEVELS.length) {
       LEVELS[currentLevel + 1].active = true;
@@ -257,6 +263,7 @@ function handleLevelInput(x, y) {
         y > height * 0.75 &&
         y < height * 0.75 + width * 0.1
       ) {
+        console.log(`Bin ${bin.type} selected`);
         checkWaste(bin.type);
       }
     }
@@ -397,3 +404,5 @@ function onMusicLoad() {
 function onMusicError(err) {
   console.error("Error loading music:", err);
 }
+
+console.log("Game initialized");
