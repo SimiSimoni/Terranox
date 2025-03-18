@@ -313,7 +313,6 @@ function handleLevelInput(x, y) {
     }
   }
 }
-}
 
 function handleCreditsInput() {
   console.log("handleCreditsInput called");
