@@ -176,10 +176,12 @@ function handleSubmitName() {
 }
 
 function mousePressed() {
+  console.log('Mouse pressed at:', mouseX, mouseY);
   handleInput(mouseX, mouseY);
 }
 
 function touchStarted() {
+  console.log('Touch started at:', touchX, touchY);
   handleInput(touchX, touchY);
   return false;
 }
