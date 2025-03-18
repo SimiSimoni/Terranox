@@ -78,7 +78,7 @@ let nameInput, submitButton;
 const BOSSES = [
   { name: "RSU", music: null, idleGif: null, attackGif: null, attack: 2 },
   { name: "Avaricia", music: null, idleGif: null, attackGif: null, attack: 3 },
-  { name: "TerraNox", music: null, idleGif: null, attackGif: null, maxHp: 15, attack: 4 }
+  { name: "TerraNox", music: null, idleGif: null, attackGif: null, maxHp: 20, attack: 4 }
 ];
 
 function preload() {
@@ -294,8 +294,7 @@ function handleLevelInput(x, y) {
       currentParagraph = 0;
       displayedText = "";
       charIndex = 0;
-      
-    ENDING_TEXT[ENDING_TEXT.length - 1] = `${player.name}: \n—Entonces estaremos listos.\n`;
+      updateEndingText();
     } else {
       gameState = "mapa";
     }
@@ -329,8 +328,7 @@ function handleCreditsInput() {
   }
 }
 
-function handleEndingInput() 
-{
+function handleEndingInput() {
   console.log("handleEndingInput called");
   if (currentParagraph < ENDING_TEXT.length - 1) {
     currentParagraph++;
@@ -375,7 +373,8 @@ function drawLevel() {
   drawEnemy();
 }
 
-function drawCredits() {
+function drawCredits() 
+{
   textSize(min(width, height) * 0.03); // Responsive text size
   fill(255);
   if (charIndex < CREDITS_TEXT[currentParagraph].length) {
