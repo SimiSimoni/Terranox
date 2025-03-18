@@ -12,7 +12,12 @@ const WASTE_ITEMS = {
     { name: "Cáscara de plátano", type: "organico" },
     { name: "Periódico", type: "papel" },
     { name: "Lata de refresco", type: "metal" },
-    { name: "Pila usada", type: "electronico" }
+    { name: "Pila usada", type: "electronico" },
+    { name: "Bolsa de plástico", type: "plastico" },
+    { name: "Restos de comida", type: "organico" },
+    { name: "Revista", type: "papel" },
+    { name: "Lata de comida", type: "metal" },
+    { name: "Cargador viejo", type: "electronico" }
   ]
 };
 
@@ -58,7 +63,7 @@ let nameInput, submitButton;
 const BOSSES = [
   { name: "RSU", music: null, idleGif: null, attackGif: null },
   { name: "Avaricia", music: null, idleGif: null, attackGif: null },
-  { name: "TerraNox", music: null, idleGif: null, attackGif: null }
+  { name: "TerraNox", music: null, idleGif: null, attackGif: null, maxHp: 20 }
 ];
 
 function preload() {
@@ -280,7 +285,6 @@ function drawMap() {
   text("Selecciona un nivel", width / 2, height * 0.1);
   for (let i = 0; i < LEVELS.length; i++) {
     let level = LEVELS[i];
-
     fill(level.active ? "green" : "red");
     rect(level.x * width, level.y * height, width * 0.05, height * 0.05);
     fill(255);
@@ -378,7 +382,7 @@ function pickNewWaste() {
 
 function resetGame() {
   player.hp = 10;
-  enemy.hp = 10;
+  enemy.hp = BOSSES[currentLevel].maxHp || 10;
   round = 1;
   gameOver = false;
 
