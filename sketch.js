@@ -161,7 +161,10 @@ function drawNameInput() {
     submitButton.style("font-size", "20px");
 
     submitButton.mousePressed(handleSubmitName);
+    submitButton.touchStarted(handleSubmitName);
+
     nameInput.mousePressed(() => nameInput.elt.focus());
+    nameInput.touchStarted(() => nameInput.elt.focus());
   }
 }
 
