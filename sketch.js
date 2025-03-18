@@ -442,4 +442,65 @@ function drawStatus() {
 }
 
 function drawEnemy() {
-  let enemy
+  let enemyGif = enemyAttacking ? BOSSES[currentLevel].attackGif : BOSSES[currentLevel].idleGif;
+  image(enemyGif, width / 2 - width * 0.1, height / 2 - height * 0.2, width * 0.2, height * 0.3);
+}
+
+function checkWaste(selectedType) {
+  if (currentWaste && selectedType === currentWaste.type) {
+    console.log("¡Correcto! +2 de ataque");
+    enemy.hp -= 2;
+  } else {
+    console.log("Incorrecto. -2 de vida");
+    player.hp -= 2;
+    enemyAttacking = true;
+    setTimeout(() => { enemyAttacking = false; }, 500);
+  }
+
+  round++;
+  if (round > MAX_ROUNDS || player.hp <= 0 || enemy.hp <= 0) {
+    gameOver = true;
+  } else {
+    pickNewWaste();
+  }
+}
+
+function pickNewWaste() {
+  currentWaste = random(WASTE_ITEMS.easy);
+}
+
+function resetGame() {
+  player.hp = 10;
+  enemy.hp = BOSSES[currentLevel].maxHp || 10;
+  round = 1;
+  gameOver = false;
+
+  bgMusicGame.stop();
+  bgMusicIntro.stop();
+  bossMusic1.stop();
+  bossMusic2.stop();
+  preBossMusic.stop();
+  bossMusicFinal.stop();
+
+  if (currentLevel >= 0 && currentLevel < BOSSES.length) {
+    enemy.name = BOSSES[currentLevel].name;
+    idleAnimation = BOSSES[currentLevel].idleGif;
+    attackAnimation = BOSSES[currentLevel].attackGif;
+    BOSSES[currentLevel].music.loop();
+  } else {
+    enemy.name = "Enemigo Común";
+    idleAnimation = null;
+    attackAnimation = null;
+    bgMusicGame.loop();
+  }
+}
+
+function onMusicLoad() {
+  console.log("Music loaded correctly");
+}
+
+function onMusicError(err) {
+  console.error("Error loading music:", err);
+}
+
+console.log("Game initialized");
