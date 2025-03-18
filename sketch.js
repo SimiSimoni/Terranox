@@ -128,13 +128,13 @@ function draw() {
 }
 
 function drawIntro() {
-  textSize(16);
+  textSize(min(width, height) * 0.03); // Responsive text size
   fill(255);
   if (charIndex < INTRO_TEXT[currentParagraph].length) {
     displayedText = INTRO_TEXT[currentParagraph].substring(0, charIndex);
     charIndex += TEXT_SPEED;
   } else {
-    textSize(12);
+    textSize(min(width, height) * 0.02); // Responsive text size
     text("Haz clic para continuar", width / 2, height / 2 + 40);
   }
 
@@ -143,7 +143,7 @@ function drawIntro() {
 
 function drawNameInput() {
   background(0);
-  textSize(20);
+  textSize(min(width, height) * 0.04); // Responsive text size
   fill(255);
   text("¿Cuál es tu nombre?", width / 2, height * 0.3);
 
@@ -223,7 +223,7 @@ function handlePreBattleInput() {
     enemy.name = "TerraNox";
     bossMusicFinal.loop();
     isPreBattle = false;
-    textSize(30);
+    textSize(min(width, height) * 0.03); // Responsive text size
     text("—Insensato... ¿Crees que puedes detenerme? \n Soy la sombra de la humanidad, \n la consecuencia de su codicia. " +
       "Con cada fábrica que arde,\n con cada río envenenado,\n mi poder crece. " +
       "TÚ no eres rival para mí.", width / 2, height / 2);
@@ -276,7 +276,7 @@ function handleLevelInput(x, y) {
 }
 
 function drawMap() {
-  textSize(20);
+  textSize(min(width, height) * 0.03); // Responsive text size
   text("Selecciona un nivel", width / 2, height * 0.1);
   for (let i = 0; i < LEVELS.length; i++) {
     let level = LEVELS[i];
@@ -290,9 +290,9 @@ function drawMap() {
 
 function drawLevel() {
   if (gameOver) {
-    textSize(30);
+    textSize(min(width, height) * 0.04); // Responsive text size
     text(player.hp <= 0 ? "Perdiste!" : "Ganaste!", width / 2, height / 2);
-    textSize(20);
+    textSize(min(width, height) * 0.03); // Responsive text size
     text("Haz clic para volver al mapa", width / 2, height / 2 + 40);
     return;
   }
@@ -308,7 +308,7 @@ function drawLevel() {
 }
 
 function drawPreBattleText() {
-  textSize(20);
+  textSize(min(width, height) * 0.03); // Responsive text size
   fill(255);
   switch (preBattleStep) {
     case 0:
@@ -333,17 +333,17 @@ function drawBins() {
     rect(bin.x * width, height * 0.8, width * 0.12, height * 0.12, 10);
     fill(255);
     noStroke();
-    textSize(14);
+    textSize(min(width, height) * 0.02); // Responsive text size
     text(bin.type.toUpperCase(), bin.x * width + width * 0.06, height * 0.85);
   }
 }
 
 function drawStatus() {
-  textSize(20);
+  textSize(min(width, height) * 0.03); // Responsive text size
   text(`Round ${round} / ${MAX_ROUNDS}`, width / 2, height * 0.05);
   text("Desecho actual:", width / 2, height * 0.15);
   text(currentWaste ? currentWaste.name : "Cargando...", width / 2, height * 0.2);
-  textSize(16);
+  textSize(min(width, height) * 0.025); // Responsive text size
   text(`${player.name}'s HP: ${player.hp}`, width * 0.2, height * 0.05);
   text(`${enemy.name}'s HP: ${enemy.hp}`, width * 0.8, height * 0.05);
 }
