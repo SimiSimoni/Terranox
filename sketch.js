@@ -68,11 +68,6 @@ const CREDITS_TEXT = [
   "Gracias por jugar a nuestro juego.\n"
 ];
 
-function updateEndingText() 
-{
-  ENDING_TEXT[ENDING_TEXT.length - 1] = `${player.name}: \n—Entonces estaremos listos.\n`;
-}
-
 let currentParagraph = 0;
 let displayedText = "";
 let charIndex = 0;
@@ -83,7 +78,7 @@ let nameInput, submitButton;
 const BOSSES = [
   { name: "RSU", music: null, idleGif: null, attackGif: null, attack: 2 },
   { name: "Avaricia", music: null, idleGif: null, attackGif: null, attack: 3 },
-  { name: "TerraNox", music: null, idleGif: null, attackGif: null, maxHp: 20, attack: 4 }
+  { name: "TerraNox", music: null, idleGif: null, attackGif: null, maxHp: 15, attack: 4 }
 ];
 
 function preload() {
@@ -299,7 +294,8 @@ function handleLevelInput(x, y) {
       currentParagraph = 0;
       displayedText = "";
       charIndex = 0;
-      updateEndingText(); // Call the updateEndingText function here
+      
+    ENDING_TEXT[ENDING_TEXT.length - 1] = `${player.name}: \n—Entonces estaremos listos.\n`;
     } else {
       gameState = "mapa";
     }
