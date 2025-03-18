@@ -68,6 +68,11 @@ const CREDITS_TEXT = [
   "Gracias por jugar a nuestro juego.\n"
 ];
 
+function updateEndingText() 
+{
+  ENDING_TEXT[ENDING_TEXT.length - 1] = `${player.name}: \n—Entonces estaremos listos.\n`;
+}
+
 let currentParagraph = 0;
 let displayedText = "";
 let charIndex = 0;
@@ -294,7 +299,7 @@ function handleLevelInput(x, y) {
       currentParagraph = 0;
       displayedText = "";
       charIndex = 0;
-      updateEndingText();
+      updateEndingText(); // Call the updateEndingText function here
     } else {
       gameState = "mapa";
     }
@@ -312,6 +317,7 @@ function handleLevelInput(x, y) {
     }
   }
 }
+}
 
 function handleCreditsInput() {
   console.log("handleCreditsInput called");
@@ -328,7 +334,8 @@ function handleCreditsInput() {
   }
 }
 
-function handleEndingInput() {
+function handleEndingInput() 
+{
   console.log("handleEndingInput called");
   if (currentParagraph < ENDING_TEXT.length - 1) {
     currentParagraph++;
@@ -373,8 +380,7 @@ function drawLevel() {
   drawEnemy();
 }
 
-function drawCredits() 
-{
+function drawCredits() {
   textSize(min(width, height) * 0.03); // Responsive text size
   fill(255);
   if (charIndex < CREDITS_TEXT[currentParagraph].length) {
