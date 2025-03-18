@@ -283,39 +283,30 @@ function handleMapInput(x, y) {
   }
 }
 
-function handleLevelInput(x, y) 
-{
+function handleLevelInput(x, y) {
   console.log(`handleLevelInput called with x: ${x}, y: ${y}`);
-  if (gameOver) 
-  {
-    if (player.hp > 0 && currentLevel + 1 < LEVELS.length) 
-    {
+  if (gameOver) {
+    if (player.hp > 0 && currentLevel + 1 < LEVELS.length) {
       LEVELS[currentLevel + 1].active = true;
     }
-    if (player.hp > 0 && currentLevel === LEVELS.length - 1) 
-    {
+    if (player.hp > 0 && currentLevel === LEVELS.length - 1) {
       gameState = "ending";
       currentParagraph = 0;
       displayedText = "";
       charIndex = 0;
       
     ENDING_TEXT[ENDING_TEXT.length - 1] = `${player.name}: \n—Entonces estaremos listos.\n`;
-    } 
-    else 
-    {
+    } else {
       gameState = "mapa";
     }
-  } else 
-  {
-    for (let bin of BINS) 
-    {
+  } else {
+    for (let bin of BINS) {
       if (
         x > bin.x * width &&
         x < bin.x * width + width * 0.1 &&
         y > height * 0.75 &&
         y < height * 0.75 + width * 0.1
-      ) 
-      {
+      ) {
         console.log(`Bin ${bin.type} selected`);
         checkWaste(bin.type);
       }
