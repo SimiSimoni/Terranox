@@ -61,9 +61,9 @@ let introFinished = false;
 let nameInput, submitButton;
 
 const BOSSES = [
-  { name: "RSU", music: null, idleGif: null, attackGif: null },
-  { name: "Avaricia", music: null, idleGif: null, attackGif: null },
-  { name: "TerraNox", music: null, idleGif: null, attackGif: null, maxHp: 20 }
+  { name: "RSU", music: null, idleGif: null, attackGif: null, attack: 2 },
+  { name: "Avaricia", music: null, idleGif: null, attackGif: null, attack: 3 },
+  { name: "TerraNox", music: null, idleGif: null, attackGif: null, maxHp: 20, attack: 4 }
 ];
 
 function preload() {
