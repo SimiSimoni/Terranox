@@ -53,6 +53,21 @@ const INTRO_TEXT = [
   "Tu tienes las herramientas para hacer algo al respecto…\n Y lo lograrás…\n",
 ];
 
+const ENDING_TEXT = [
+  "¡LO HAS LOGRADO!\n",
+  "Cambio de escena a cinemática final de juego\n",
+  "Su forma se desvanece completamente. El cielo, antes cubierto por nubes de smog, comienza a abrirse. Rayos de sol iluminan la tierra por primera vez en mucho tiempo. El aire es más fresco, los árboles respiran de nuevo.\n",
+  "c: —Este no es el final de la lucha… es el comienzo de algo más grande. Mantendremos viva esta victoria, no con espadas ni puños, sino con nuestras acciones. Protegeremos este mundo.\n",
+  "Otra persona: \n—¿Y si TerraNox regresa?\n",
+  `${player.name}: \n—Entonces estaremos listos.\n`
+];
+
+const CREDITS_TEXT = [
+  "Desarrollado por:\n",
+  "SimiSimoni\n",
+  "Gracias por jugar a nuestro juego.\n"
+];
+
 let currentParagraph = 0;
 let displayedText = "";
 let charIndex = 0;
@@ -129,6 +144,12 @@ function draw() {
     case "nivel":
       drawLevel();
       break;
+    case "credits":
+      drawCredits();
+      break;
+    case "ending":
+      drawEnding();
+      break;
   }
 }
 
@@ -204,6 +225,10 @@ function handleInput(x, y) {
     handleMapInput(x, y);
   } else if (gameState === "nivel") {
     handleLevelInput(x, y);
+  } else if (gameState === "credits") {
+    handleCreditsInput();
+  } else if (gameState === "ending") {
+    handleEndingInput();
   }
 }
 
@@ -264,7 +289,14 @@ function handleLevelInput(x, y) {
     if (player.hp > 0 && currentLevel + 1 < LEVELS.length) {
       LEVELS[currentLevel + 1].active = true;
     }
-    gameState = "mapa";
+    if (player.hp > 0 && currentLevel === LEVELS.length - 1) {
+      gameState = "ending";
+      currentParagraph = 0;
+      displayedText = "";
+      charIndex = 0;
+    } else {
+      gameState = "mapa";
+    }
   } else {
     for (let bin of BINS) {
       if (
@@ -277,6 +309,35 @@ function handleLevelInput(x, y) {
         checkWaste(bin.type);
       }
     }
+  }
+}
+
+function handleCreditsInput() {
+  console.log("handleCreditsInput called");
+  if (currentParagraph < CREDITS_TEXT.length - 1) {
+    currentParagraph++;
+    displayedText = "";
+    charIndex = 0;
+  } else {
+    // Optionally, you can restart the game or go back to the main menu
+    gameState = "mapa";
+    currentParagraph = 0;
+    displayedText = "";
+    charIndex = 0;
+  }
+}
+
+function handleEndingInput() {
+  console.log("handleEndingInput called");
+  if (currentParagraph < ENDING_TEXT.length - 1) {
+    currentParagraph++;
+    displayedText = "";
+    charIndex = 0;
+  } else {
+    gameState = "credits";
+    currentParagraph = 0;
+    displayedText = "";
+    charIndex = 0;
   }
 }
 
@@ -297,7 +358,7 @@ function drawLevel() {
     textSize(min(width, height) * 0.04); // Responsive text size
     text(player.hp <= 0 ? "Perdiste!" : "Ganaste!", width / 2, height / 2);
     textSize(min(width, height) * 0.03); // Responsive text size
-    text("Haz clic para volver al mapa", width / 2, height / 2 + 40);
+    text("Haz clic para continuar", width / 2, height / 2 + 40);
     return;
   }
 
@@ -309,6 +370,34 @@ function drawLevel() {
   drawBins();
   drawStatus();
   drawEnemy();
+}
+
+function drawCredits() {
+  textSize(min(width, height) * 0.03); // Responsive text size
+  fill(255);
+  if (charIndex < CREDITS_TEXT[currentParagraph].length) {
+    displayedText = CREDITS_TEXT[currentParagraph].substring(0, charIndex);
+    charIndex += TEXT_SPEED;
+  } else {
+    textSize(min(width, height) * 0.02); // Responsive text size
+    text("Haz clic para continuar", width / 2, height / 2 + 40);
+  }
+
+  text(displayedText, width / 2, height / 2);
+}
+
+function drawEnding() {
+  textSize(min(width, height) * 0.03); // Responsive text size
+  fill(255);
+  if (charIndex < ENDING_TEXT[currentParagraph].length) {
+    displayedText = ENDING_TEXT[currentParagraph].substring(0, charIndex);
+    charIndex += TEXT_SPEED;
+  } else {
+    textSize(min(width, height) * 0.02); // Responsive text size
+    text("Haz clic para continuar", width / 2, height / 2 + 40);
+  }
+
+  text(displayedText, width / 2, height / 2);
 }
 
 function drawPreBattleText() {
@@ -353,65 +442,4 @@ function drawStatus() {
 }
 
 function drawEnemy() {
-  let enemyGif = enemyAttacking ? BOSSES[currentLevel].attackGif : BOSSES[currentLevel].idleGif;
-  image(enemyGif, width / 2 - width * 0.1, height / 2 - height * 0.2, width * 0.2, height * 0.3);
-}
-
-function checkWaste(selectedType) {
-  if (currentWaste && selectedType === currentWaste.type) {
-    console.log("¡Correcto! +2 de ataque");
-    enemy.hp -= 2;
-  } else {
-    console.log("Incorrecto. -2 de vida");
-    player.hp -= 2;
-    enemyAttacking = true;
-    setTimeout(() => { enemyAttacking = false; }, 500);
-  }
-
-  round++;
-  if (round > MAX_ROUNDS || player.hp <= 0 || enemy.hp <= 0) {
-    gameOver = true;
-  } else {
-    pickNewWaste();
-  }
-}
-
-function pickNewWaste() {
-  currentWaste = random(WASTE_ITEMS.easy);
-}
-
-function resetGame() {
-  player.hp = 10;
-  enemy.hp = BOSSES[currentLevel].maxHp || 10;
-  round = 1;
-  gameOver = false;
-
-  bgMusicGame.stop();
-  bgMusicIntro.stop();
-  bossMusic1.stop();
-  bossMusic2.stop();
-  preBossMusic.stop();
-  bossMusicFinal.stop();
-
-  if (currentLevel >= 0 && currentLevel < BOSSES.length) {
-    enemy.name = BOSSES[currentLevel].name;
-    idleAnimation = BOSSES[currentLevel].idleGif;
-    attackAnimation = BOSSES[currentLevel].attackGif;
-    BOSSES[currentLevel].music.loop();
-  } else {
-    enemy.name = "Enemigo Común";
-    idleAnimation = null;
-    attackAnimation = null;
-    bgMusicGame.loop();
-  }
-}
-
-function onMusicLoad() {
-  console.log("Music loaded correctly");
-}
-
-function onMusicError(err) {
-  console.error("Error loading music:", err);
-}
-
-console.log("Game initialized");
+  let enemy
