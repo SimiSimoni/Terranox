@@ -373,7 +373,8 @@ function drawLevel() {
   drawEnemy();
 }
 
-function drawCredits() {
+function drawCredits() 
+{
   textSize(min(width, height) * 0.03); // Responsive text size
   fill(255);
   if (charIndex < CREDITS_TEXT[currentParagraph].length) {
@@ -387,7 +388,8 @@ function drawCredits() {
   text(displayedText, width / 2, height / 2);
 }
 
-function drawEnding() {
+function drawEnding() 
+{
   textSize(min(width, height) * 0.03); // Responsive text size
   fill(255);
   if (charIndex < ENDING_TEXT[currentParagraph].length) {
@@ -469,7 +471,7 @@ function checkWaste(selectedType) {
     console.log("Incorrecto. -2 de vida");
     player.hp -= 2;
     enemyAttacking = true;
-    setTimeout(() => { enemyAttacking = false; }, 500);
+    setTimeout(() => { enemyAttacking = false; }, 700);
   }
 
   round++;
