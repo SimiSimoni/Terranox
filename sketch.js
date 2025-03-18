@@ -53,13 +53,13 @@ const INTRO_TEXT = [
   "Tu tienes las herramientas para hacer algo al respecto…\n Y lo lograrás…\n",
 ];
 
-const ENDING_TEXT = [
+const ENDING_TEXT_TEMPLATE = [
   "¡LO HAS LOGRADO!\n",
   "Cambio de escena a cinemática final de juego\n",
   "Su forma se desvanece completamente. El cielo, antes cubierto por nubes de smog, comienza a abrirse. Rayos de sol iluminan la tierra por primera vez en mucho tiempo. El aire es más fresco, los árboles respiran de nuevo.\n",
   "c: —Este no es el final de la lucha… es el comienzo de algo más grande. Mantendremos viva esta victoria, no con espadas ni puños, sino con nuestras acciones. Protegeremos este mundo.\n",
   "Otra persona: \n—¿Y si TerraNox regresa?\n",
-  `${player.name}: \n—Entonces estaremos listos.\n`
+  "Jugador: \n—Entonces estaremos listos.\n"
 ];
 
 const CREDITS_TEXT = [
@@ -294,6 +294,7 @@ function handleLevelInput(x, y) {
       currentParagraph = 0;
       displayedText = "";
       charIndex = 0;
+      updateEndingText();
     } else {
       gameState = "mapa";
     }
@@ -417,6 +418,20 @@ function drawPreBattleText() {
       break;
   }
 }
+
+function drawBins() {
+  for (let bin of BINS) {
+    stroke(bin.color);
+    strokeWeight(4);
+    noFill();
+    rect(bin.x * width, height * 0.8, width * 0.12, height * 0.12, 10);
+    fill(255);
+    noStroke();
+    textSize(min(width, height) * 0.02); // Responsive text size
+    text(bin.type.toUpperCase(), bin.x * width + width * 0.06, height * 0.85);
+  }
+}
+
 
 function drawBins() {
   for (let bin of BINS) {
