@@ -11,6 +11,9 @@ const WASTE_ITEMS = {
   easy: [
     { name: "Botella de plástico", type: "plastico" },
     { name: "Cáscara de plátano", type: "organico" },
+    { name: "Envase de yogur", type: "plastico" },
+    { name: "Cáscara de huevo", type: "organico" },
+    { name: "Folletos publicitarios", type: "papel" },
     { name: "Periódico", type: "papel" },
     { name: "Lata de refresco", type: "metal" },
     { name: "Pila usada", type: "electronico" },
@@ -18,16 +21,25 @@ const WASTE_ITEMS = {
     { name: "Restos de comida", type: "organico" },
     { name: "Revista", type: "papel" },
     { name: "Lata de comida", type: "metal" },
-    { name: "Cargador viejo", type: "electronico" }
+    { name: "Cargador viejo", type: "electronico" },
+    { name: "Anilla de lata", type: "metal" },
+    { name: "Memorias USB viejas", type: "electronico" },
+    { name: "Calculadora vieja", type: "electronico" },
+    { name: "Empaques de unicel", type: "relleno sanitario"},
+    { name: "Ceramica rota", type: "relleno sanitario"},
+    { name: "Bombilla quemada", type: "relleno sanitario"},
+    { name: "Chicle envuelto", type: "relleno sanitario"},
+    { name: "Trapos viejos", type: "relleno sanitario"}
   ]
 };
 
 const BINS = [
   { type: "plastico", x: 0.15, color: "#fc7f23" },
-  { type: "organico", x: 0.3, color: "#fc7f23" },
-  { type: "papel", x: 0.45, color: "#fc7f23" },
-  { type: "metal", x: 0.6, color: "#fc7f23" },
-  { type: "electronico", x: 0.75, color: "#fc7f23" }
+  { type: "organico", x: 0.27, color: "#fc7f23" },
+  { type: "papel", x: 0.39, color: "#fc7f23" },
+  { type: "metal", x: 0.51, color: "#fc7f23" },
+  { type: "electronico", x: 0.63, color: "#fc7f23" },
+  { type: "relleno sanitario", x: 0.75, color: "#fc7f23" }
 ];
 
 let player = { name: "Jugador", hp: 10 };
