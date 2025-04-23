@@ -4,6 +4,7 @@ let bossMusic1, bossMusic2;
 let preBossMusic, bossMusicFinal;
 let isPreBattle = false;
 let enemyAttacking = false;
+let enemyTakingDamage = false;
 let preBattleStep = 0;
 
 const WASTE_ITEMS = {
@@ -491,8 +492,18 @@ function drawStatus() {
   text(`${enemy.name}'s HP: ${enemy.hp}`, width * 0.8, height * 0.05);
 }
 
-function drawEnemy() {
-  let enemyGif = enemyAttacking ? BOSSES[currentLevel].attackGif : BOSSES[currentLevel].idleGif;
+function drawEnemy() 
+{
+  let enemyGif;
+  if (enemyTakingDamage) 
+  {
+    enemyGif = BOSSES[currentLevel].damageGif;
+  } else if (enemyAttacking) {
+    enemyGif = BOSSES[currentLevel].attackGif;
+  } else 
+  {
+    enemyGif = BOSSES[currentLevel].idleGif;
+  }
   image(enemyGif, width / 2 - width * 0.1, height / 2 - height * 0.2, width * 0.2, height * 0.3);
 }
 
@@ -501,11 +512,13 @@ function checkWaste(selectedType)
   if (currentWaste && selectedType === currentWaste.type) {
     console.log("¡Correcto! +2 de ataque");
     enemy.hp -= 2;
+    enemyTakingDamage = true;
+    setTimeout(() => { enemyTakingDamage = false; }, 800);
   } else {
     console.log("Incorrecto. -2 de vida");
     player.hp -= 2;
     enemyAttacking = true;
-    setTimeout(() => { enemyAttacking = false; }, 700);
+    setTimeout(() => { enemyAttacking = false; }, 800);
   }
 
   round++;
