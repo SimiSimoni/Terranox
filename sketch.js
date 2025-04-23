@@ -53,7 +53,7 @@ const INTRO_TEXT = [
   "Tu tienes las herramientas para hacer algo al respecto…\n Y lo lograrás…\n",
 ];
 
-const ENDING_TEXT_TEMPLATE = [
+const ENDING_TEXT = [
   "¡LO HAS LOGRADO!\n",
   "Cambio de escena a cinemática final de juego\n",
   "Su forma se desvanece completamente. El cielo, antes cubierto por nubes de smog, comienza a abrirse. Rayos de sol iluminan la tierra por primera vez en mucho tiempo. El aire es más fresco, los árboles respiran de nuevo.\n",
