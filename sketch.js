@@ -34,12 +34,12 @@ const WASTE_ITEMS = {
 };
 
 const BINS = [
-  { type: "plastico", x: 0.12, color: "#fc7f23" },
-  { type: "organico", x: 0.27, color: "#fc7f23" },
-  { type: "papel", x: 0.42, color: "#fc7f23" },
-  { type: "metal", x: 0.57, color: "#fc7f23" },
-  { type: "electronico", x: 0.72, color: "#fc7f23" },
-  { type: "relleno", x: 0.87, color: "#fc7f23" }
+  { type: "plastico", x: 0.1, color: "#fc7f23" },
+  { type: "organico", x: 0.24, color: "#fc7f23" },
+  { type: "papel", x: 0.38, color: "#fc7f23" },
+  { type: "metal", x: 0.52, color: "#fc7f23" },
+  { type: "electronico", x: 0.66, color: "#fc7f23" },
+  { type: "relleno", x: 0.80, color: "#fc7f23" }
 ];
 
 let player = { name: "Jugador", hp: 10 };
