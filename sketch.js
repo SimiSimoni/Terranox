@@ -63,8 +63,7 @@ const ENDING_TEXT = [
 ];
 
 const CREDITS_TEXT = [
-  "Desarrollado por:\n",
-  "Simone Faulkner - Programadora\n Oliver Santos - Animacion",
+  "Desarrollado por:\n Simone Faulkner - Programadora \n Oliver Santos - Animacion",
   "Gracias por jugar a nuestro juego.\n"
 ];
 
