@@ -299,7 +299,6 @@ function handleLevelInput(x, y) {
       currentParagraph = 0;
       displayedText = "";
       charIndex = 0;
-      updateEndingText();
     } else 
     {
       console.log("Transitioning back to map state");
@@ -323,12 +322,12 @@ function handleLevelInput(x, y) {
 function handleCreditsInput() 
 {
   console.log("handleCreditsInput called");
-  if (currentParagraph < CREDITS_TEXT.length - 1) {
+  if (currentParagraph < CREDITS_TEXT.length - 1) { // Corrección: -1 para evitar error de índice
     currentParagraph++;
     displayedText = "";
     charIndex = 0;
-  } else {
-    // Optionally, you can restart the game or go back to the main menu
+  } else if (currentParagraph === CREDITS_TEXT.length - 1) {
+    // Después del último párrafo de los créditos, vuelve al mapa en el siguiente clic
     gameState = "mapa";
     currentParagraph = 0;
     displayedText = "";
@@ -340,13 +339,12 @@ function handleEndingInput()
 {
   console.log("handleEndingInput called");
   if (currentParagraph < ENDING_TEXT.length - 1) 
-  {
+  { // Corrección: -1 para evitar error de índice
     currentParagraph++;
     displayedText = "";
     charIndex = 0;
-  } else 
+  } else if (currentParagraph === ENDING_TEXT.length - 1) 
   {
-    console.log("Transitioning to credits state");
     gameState = "credits";
     currentParagraph = 0;
     displayedText = "";
@@ -387,32 +385,53 @@ function drawLevel() {
 
 function drawCredits() 
 {
-  textSize(min(width, height) * 0.03); // Responsive text size
+  textSize(min(width, height) * 0.03);
   fill(255);
-  if (charIndex < CREDITS_TEXT[currentParagraph].length) {
-    displayedText = CREDITS_TEXT[currentParagraph].substring(0, charIndex);
-    charIndex += TEXT_SPEED;
-  } else {
-    textSize(min(width, height) * 0.02); // Responsive text size
-    text("Haz clic para continuar", width / 2, height / 2 + 40);
+  if (currentParagraph < CREDITS_TEXT.length) { // Corrección: usar .length directamente
+    if (charIndex < CREDITS_TEXT[currentParagraph].length) 
+    {
+      displayedText = CREDITS_TEXT[currentParagraph].substring(0, charIndex);
+      charIndex += TEXT_SPEED;
+    } else 
+    {
+      textSize(min(width, height) * 0.02);
+      text("Haz clic para continuar", width / 2, height / 2 + 40);
+    }
+    text(displayedText, width / 2, height / 2);
+  } else 
+  {
+    // Después de mostrar todos los créditos, puedes volver al mapa o a otro estado
+    gameState = "mapa";
+    currentParagraph = 0;
+    displayedText = "";
+    charIndex = 0;
   }
-
-  text(displayedText, width / 2, height / 2);
 }
 
 function drawEnding() 
 {
-  textSize(min(width, height) * 0.03); // Responsive text size
+  textSize(min(width, height) * 0.03);
   fill(255);
-  if (charIndex < ENDING_TEXT[currentParagraph].length) {
-    displayedText = ENDING_TEXT[currentParagraph].substring(0, charIndex);
-    charIndex += TEXT_SPEED;
-  } else {
-    textSize(min(width, height) * 0.02); // Responsive text size
-    text("Haz clic para continuar", width / 2, height / 2 + 40);
+  if (currentParagraph < ENDING_TEXT.length) 
+  { 
+    if (charIndex < ENDING_TEXT[currentParagraph].length) 
+    {
+      displayedText = ENDING_TEXT[currentParagraph].substring(0, charIndex);
+      charIndex += TEXT_SPEED;
+    } else 
+    {
+      textSize(min(width, height) * 0.02);
+      text("Haz clic para continuar", width / 2, height / 2 + 40);
+    }
+    text(displayedText, width / 2, height / 2);
+  } else 
+  {
+    // Después de mostrar todo el texto del epílogo, cambia al estado de créditos
+    gameState = "credits";
+    currentParagraph = 0;
+    displayedText = "";
+    charIndex = 0;
   }
-
-  text(displayedText, width / 2, height / 2);
 }
 
 function drawPreBattleText() {
