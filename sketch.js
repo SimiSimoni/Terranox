@@ -55,16 +55,16 @@ const INTRO_TEXT = [
 
 const ENDING_TEXT = [
   "¡LO HAS LOGRADO!\n",
-  "Cambio de escena a cinemática final de juego\n",
-  "Su forma se desvanece completamente. El cielo, antes cubierto por nubes de smog, comienza a abrirse. Rayos de sol iluminan la tierra por primera vez en mucho tiempo. El aire es más fresco, los árboles respiran de nuevo.\n",
-  "c: —Este no es el final de la lucha… es el comienzo de algo más grande. Mantendremos viva esta victoria, no con espadas ni puños, sino con nuestras acciones. Protegeremos este mundo.\n",
+  "Su forma se desvanece completamente.\n El cielo, antes cubierto por nubes de smog, comienza a abrirse.\n",
+  "Rayos de sol iluminan la tierra por primera vez en mucho tiempo.\n El aire es más fresco, los árboles respiran de nuevo.\n",
+  "c: —Este no es el final de la lucha… es el comienzo de algo más grande.\n Mantendremos viva esta victoria, no con espadas ni puños, sino con nuestras acciones.\n Protegeremos este mundo.\n",
   "Otra persona: \n—¿Y si TerraNox regresa?\n",
   "Jugador: \n—Entonces estaremos listos.\n"
 ];
 
 const CREDITS_TEXT = [
   "Desarrollado por:\n",
-  "SimiSimoni\n",
+  "Simone Faulkner - Programadora\n Oliver Santos - Animacion",
   "Gracias por jugar a nuestro juego.\n"
 ];
 
