@@ -96,10 +96,13 @@ function preload() {
 
   BOSSES[0].idleGif = loadImage("boss1_idle.gif");
   BOSSES[0].attackGif = loadImage("boss1_attack.gif");
+  BOSSES[0].damageGif = loadImage("boss1_damage.gif");
   BOSSES[1].idleGif = loadImage("boss2_idle.gif");
   BOSSES[1].attackGif = loadImage("boss2_attack.gif");
+  BOSSES[1].damageGif = loadImage("boss2_damage.gif");
   BOSSES[2].idleGif = loadImage("boss3_idle.gif");
   BOSSES[2].attackGif = loadImage("boss3_attack.gif");
+  BOSSES[2].damageGif = loadImage("boss3_damage.gif");
 }
 
 function setup() {
