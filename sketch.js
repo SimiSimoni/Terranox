@@ -206,7 +206,7 @@ function handleSubmitName() {
 
 function mousePressed() {
   console.log('Mouse pressed at:', mouseX, mouseY);
-  handleInput(mouseX, mouseY);
+  Input(mouseX, mouseY);
 }
 
 function touchStarted() {
@@ -285,17 +285,24 @@ function handleMapInput(x, y) {
 
 function handleLevelInput(x, y) {
   console.log(`handleLevelInput called with x: ${x}, y: ${y}`);
-  if (gameOver) {
-    if (player.hp > 0 && currentLevel + 1 < LEVELS.length) {
+  if (gameOver) 
+  {
+    console.log(`Game Over - Player HP: ${player.hp}, Current Level: ${currentLevel}, Total Levels: ${LEVELS.length}`);
+    if (player.hp > 0 && currentLevel + 1 < LEVELS.length) 
+    {
       LEVELS[currentLevel + 1].active = true;
     }
-    if (player.hp > 0 && currentLevel === LEVELS.length - 1) {
+    if (player.hp > 0 && currentLevel === LEVELS.length - 1) 
+    {
+      console.log("Transitioning to ending state");
       gameState = "ending";
       currentParagraph = 0;
       displayedText = "";
       charIndex = 0;
       updateEndingText();
-    } else {
+    } else 
+    {
+      console.log("Transitioning back to map state");
       gameState = "mapa";
     }
   } else {
@@ -313,7 +320,8 @@ function handleLevelInput(x, y) {
   }
 }
 
-function handleCreditsInput() {
+function handleCreditsInput() 
+{
   console.log("handleCreditsInput called");
   if (currentParagraph < CREDITS_TEXT.length - 1) {
     currentParagraph++;
@@ -328,13 +336,17 @@ function handleCreditsInput() {
   }
 }
 
-function handleEndingInput() {
+function handleEndingInput() 
+{
   console.log("handleEndingInput called");
-  if (currentParagraph < ENDING_TEXT.length - 1) {
+  if (currentParagraph < ENDING_TEXT.length - 1) 
+  {
     currentParagraph++;
     displayedText = "";
     charIndex = 0;
-  } else {
+  } else 
+  {
+    console.log("Transitioning to credits state");
     gameState = "credits";
     currentParagraph = 0;
     displayedText = "";
@@ -463,7 +475,8 @@ function drawEnemy() {
   image(enemyGif, width / 2 - width * 0.1, height / 2 - height * 0.2, width * 0.2, height * 0.3);
 }
 
-function checkWaste(selectedType) {
+function checkWaste(selectedType) 
+{
   if (currentWaste && selectedType === currentWaste.type) {
     console.log("¡Correcto! +2 de ataque");
     enemy.hp -= 2;
@@ -475,7 +488,8 @@ function checkWaste(selectedType) {
   }
 
   round++;
-  if (round > MAX_ROUNDS || player.hp <= 0 || enemy.hp <= 0) {
+  if (round > MAX_ROUNDS || player.hp <= 0 || enemy.hp <= 0) 
+  {
     gameOver = true;
   } else {
     pickNewWaste();
