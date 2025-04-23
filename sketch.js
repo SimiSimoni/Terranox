@@ -25,11 +25,11 @@ const WASTE_ITEMS = {
     { name: "Anilla de lata", type: "metal" },
     { name: "Memorias USB viejas", type: "electronico" },
     { name: "Calculadora vieja", type: "electronico" },
-    { name: "Empaques de unicel", type: "relleno sanitario"},
-    { name: "Ceramica rota", type: "relleno sanitario"},
-    { name: "Bombilla quemada", type: "relleno sanitario"},
-    { name: "Chicle envuelto", type: "relleno sanitario"},
-    { name: "Trapos viejos", type: "relleno sanitario"}
+    { name: "Empaques de unicel", type: "relleno"},
+    { name: "Ceramica rota", type: "relleno"},
+    { name: "Bombilla quemada", type: "relleno"},
+    { name: "Chicle envuelto", type: "relleno"},
+    { name: "Trapos viejos", type: "relleno"}
   ]
 };
 
@@ -39,7 +39,7 @@ const BINS = [
   { type: "papel", x: 0.42, color: "#fc7f23" },
   { type: "metal", x: 0.57, color: "#fc7f23" },
   { type: "electronico", x: 0.72, color: "#fc7f23" },
-  { type: "relleno sanitario", x: 0.87, color: "#fc7f23" }
+  { type: "relleno", x: 0.87, color: "#fc7f23" }
 ];
 
 let player = { name: "Jugador", hp: 10 };
