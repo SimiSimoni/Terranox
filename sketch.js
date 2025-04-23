@@ -206,7 +206,7 @@ function handleSubmitName() {
 
 function mousePressed() {
   console.log('Mouse pressed at:', mouseX, mouseY);
-  Input(mouseX, mouseY);
+  handleInput(mouseX, mouseY);
 }
 
 function touchStarted() {
