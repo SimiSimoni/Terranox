@@ -1,211 +1,586 @@
-let wasteItems = {
+let arcadeFont;
+let bgMusicIntro, bgMusicGame;
+let bossMusic1, bossMusic2;
+let preBossMusic, bossMusicFinal;
+let isPreBattle = false;
+let enemyAttacking = false;
+let enemyTakingDamage = false;
+let preBattleStep = 0;
+
+const WASTE_ITEMS = {
   easy: [
     { name: "Botella de plástico", type: "plastico" },
     { name: "Cáscara de plátano", type: "organico" },
+    { name: "Envase de yogur", type: "plastico" },
+    { name: "Cáscara de huevo", type: "organico" },
+    { name: "Folletos publicitarios", type: "papel" },
     { name: "Periódico", type: "papel" },
     { name: "Lata de refresco", type: "metal" },
-    { name: "Pila usada", type: "electronico" }
+    { name: "Pila usada", type: "electronico" },
+    { name: "Bolsa de plástico", type: "plastico" },
+    { name: "Restos de comida", type: "organico" },
+    { name: "Revista", type: "papel" },
+    { name: "Lata de comida", type: "metal" },
+    { name: "Cargador viejo", type: "electronico" },
+    { name: "Anilla de lata", type: "metal" },
+    { name: "Memorias USB viejas", type: "electronico" },
+    { name: "Calculadora vieja", type: "electronico" },
+    { name: "Empaques de unicel", type: "relleno"},
+    { name: "Ceramica rota", type: "relleno"},
+    { name: "Bombilla quemada", type: "relleno"},
+    { name: "Chicle envuelto", type: "relleno"},
+    { name: "Trapos viejos", type: "relleno"}
   ]
 };
 
-let bins = [
-  { type: "plastico", x: 100, color: "#F44336" },
-  { type: "organico", x: 250, color: "#4CAF50" },
-  { type: "papel", x: 400, color: "#FFC107" },
-  { type: "metal", x: 550, color: "gray" },
-  { type: "electronico", x: 700, color: "rgb(159,45,159)" }
+const BINS = [
+  { type: "plastico", x: 0.1, color: "#fc7f23" },
+  { type: "organico", x: 0.24, color: "#fc7f23" },
+  { type: "papel", x: 0.38, color: "#fc7f23" },
+  { type: "metal", x: 0.52, color: "#fc7f23" },
+  { type: "electronico", x: 0.66, color: "#fc7f23" },
+  { type: "relleno", x: 0.80, color: "#fc7f23" }
 ];
 
-let player = { hp: 10 };
+let player = { name: "Jugador", hp: 10 };
 let enemy = { hp: 10 };
 let currentWaste;
 let round = 1;
-let maxRounds = 10;
+const MAX_ROUNDS = 10;
 let gameOver = false;
-let gameState = "intro"; // Se inicia en la introducción
-let levels = [
-  { x: 200, y: 200, active: true },
-  { x: 400, y: 200, active: false },
-  { x: 600, y: 200, active: false }
+let gameState = "intro";
+const LEVELS = [
+  { x: 0.25, y: 0.5, active: true },
+  { x: 0.5, y: 0.5, active: false },
+  { x: 0.75, y: 0.5, active: false }
 ];
 let currentLevel = -1;
 
-// Introducción del juego
-let introText = [
-  "Érase una vez, en el planeta Tierra, \n el aire solía ser puro y de ríos cristalinos…",
-  "Con el tiempo, las fábricas crecieron, \n los autos llenaron las calles \ny el humo gris se convirtió en parte de la población…",
-  "Nadie notó que entre las sombras de los edificios \n y el humo de las chimeneas, \n algo oscuro comenzaba a despertar…"
+const INTRO_TEXT = [
+  "Érase una vez, en el planeta Tierra, \n el aire solía ser puro y de ríos cristalinos…\n",
+  "Con el tiempo, las fábricas crecieron, \n los autos llenaron las calles \ny el humo gris se convirtió en parte de la población…\n",
+  "Nadie notó que entre las sombras de los edificios \n y el humo de las chimeneas, \n algo oscuro comenzaba a despertar…\n",
+  "Se llamaba TerraNox… ",
+  "Nadie se atrevió a hacer algo al respecto, \n quizá por miedo, \n quizá por ignorancia, \n o por desconocer su debilidad…\n",
+  "Hasta que llegaste tú…\n La esperanza de todos…\n",
+  "Tu tienes las herramientas para hacer algo al respecto…\n Y lo lograrás…\n",
+];
+
+const ENDING_TEXT = [
+  "¡LO HAS LOGRADO!\n",
+  "Su forma se desvanece completamente.\n El cielo, antes cubierto por nubes de smog, comienza a abrirse.\n",
+  "Rayos de sol iluminan la tierra por primera vez en mucho tiempo.\n El aire es más fresco, los árboles respiran de nuevo.\n",
+  "c: —Este no es el final de la lucha… es el comienzo de algo más grande.\n Mantendremos viva esta victoria, no con espadas ni puños, sino con nuestras acciones.\n Protegeremos este mundo.\n",
+  "Otra persona: \n—¿Y si TerraNox regresa?\n",
+  "—Este no es el final de la lucha… es el comienzo de algo más grande.\n Mantendremos viva esta victoria, no con espadas ni puños, sino con nuestras acciones.\n Protegeremos este mundo.\n",
+  "c: \n—¿Y si TerraNox regresa?\n",
+  "Jugador: \n—Entonces estaremos listos.\n"
+];
+
+const CREDITS_TEXT = [
+  "Desarrollado por:\n Simone Faulkner - Programadora \n Oliver Santos - Animacion",
+  "Desarrollado por:\n Simone Faulkner - Programadora \n Oliver Santos - Animacion ",
+  "Gracias por jugar a nuestro juego.\n"
 ];
 
 let currentParagraph = 0;
 let displayedText = "";
 let charIndex = 0;
-let textSpeed = 2;
+const TEXT_SPEED = 2;
 let introFinished = false;
-let bgMusic;
-let arcadeFont;
+let nameInput, submitButton;
+
+const BOSSES = [
+  { name: "RSU", music: null, idleGif: null, attackGif: null, attack: 2 },
+  { name: "Avaricia", music: null, idleGif: null, attackGif: null, attack: 3 },
+  { name: "TerraNox", music: null, idleGif: null, attackGif: null, maxHp: 20, attack: 4 }
+];
 
 function preload() {
   arcadeFont = loadFont("PressStart2P-Regular.ttf");
-  bgMusic = loadSound("musicaintro.mp3");
+
+  bgMusicIntro = loadSound("musicaintro.mp3", onMusicLoad, onMusicError);
+  bgMusicGame = loadSound("musicajuego.mp3", onMusicLoad, onMusicError);
+  bossMusic1 = loadSound("musicajefeboss1.mp3", onMusicLoad, onMusicError);
+  bossMusic2 = loadSound("musicajefeboss2.mp3", onMusicLoad, onMusicError);
+  bossMusicFinal = loadSound("finalBossMusic.mp3", onMusicLoad, onMusicError);
+  preBossMusic = loadSound("preBattleMusic.mp3", onMusicLoad, onMusicError);
+
+  BOSSES[0].music = bossMusic1;
+  BOSSES[1].music = bossMusic2;
+  BOSSES[2].music = bossMusicFinal;
+
+  BOSSES[0].idleGif = loadImage("boss1_idle.gif");
+  BOSSES[0].attackGif = loadImage("boss1_attack.gif");
+  BOSSES[0].damageGif = loadImage("boss1_damage.gif");
+  BOSSES[1].idleGif = loadImage("boss2_idle.gif");
+  BOSSES[1].attackGif = loadImage("boss2_attack.gif");
+  BOSSES[1].damageGif = loadImage("boss2_damage.gif");
+  BOSSES[2].idleGif = loadImage("boss3_idle.gif");
+  BOSSES[2].attackGif = loadImage("boss3_attack.gif");
+  BOSSES[2].damageGif = loadImage("boss3_damage.gif");
 }
 
-function setup() 
-{
-  createCanvas(800, 400);
+function setup() {
+  createCanvas(windowWidth, windowHeight, P2D);
   textAlign(CENTER, CENTER);
-  textFont(arcadeFont || "Arial"); 
-  userStartAudio(); 
-  bgMusic.loop();
+
+  if (arcadeFont) {
+    textFont(arcadeFont);
+  } else {
+    console.error("La fuente no se cargó correctamente.");
+    textFont("Arial");
+  }
+
+  userStartAudio();
+
+  if (bgMusicIntro && bgMusicIntro.isLoaded()) {
+    bgMusicIntro.loop();
+  } else {
+    console.error("bgMusicIntro is not loaded properly.");
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
-  background(0); // Fondo negro
-  fill(255); // Letras blancas
+  background(0);
+  fill(255);
 
-  if (gameState === "intro") {
-    drawIntro();
-  } else if (gameState === "mapa") {
-    drawMap();
-  } else if (gameState === "nivel") {
-    drawLevel();
+  switch (gameState) {
+    case "intro":
+      drawIntro();
+      break;
+    case "nameInput":
+      drawNameInput();
+      break;
+    case "mapa":
+      drawMap();
+      break;
+    case "nivel":
+      drawLevel();
+      break;
+    case "credits":
+      drawCredits();
+      break;
+    case "ending":
+      drawEnding();
+      break;
   }
 }
 
 function drawIntro() {
-  textSize(16);
+  textSize(min(width, height) * 0.03); // Responsive text size
   fill(255);
-
-  if (charIndex < introText[currentParagraph].length) {
-    displayedText = introText[currentParagraph].substring(0, charIndex);
-    charIndex += textSpeed;
+  if (charIndex < INTRO_TEXT[currentParagraph].length) {
+    displayedText = INTRO_TEXT[currentParagraph].substring(0, charIndex);
+    charIndex += TEXT_SPEED;
   } else {
-    introFinished = true;
-    textSize(12);
+    textSize(min(width, height) * 0.02); // Responsive text size
     text("Haz clic para continuar", width / 2, height / 2 + 40);
   }
 
   text(displayedText, width / 2, height / 2);
 }
 
-function mousePressed() {
-  if (!bgMusic.isPlaying()) {
-    bgMusic.loop(); // Reproducir música al primer clic
-  }
+function drawNameInput() {
+  background(0);
+  textSize(min(width, height) * 0.04); // Responsive text size
+  fill(255);
+  text("¿Cuál es tu nombre?", width / 2, height * 0.3);
 
+  if (!nameInput) {
+    nameInput = createInput("").attribute("placeholder", "Escribe tu nombre...");
+    nameInput.size(width * 0.6, height * 0.05);
+    nameInput.position(width * 0.2, height * 0.4);
+    nameInput.style("font-size", "20px");
+    nameInput.style("text-align", "center");
+    nameInput.elt.focus();
+
+    submitButton = createButton("Aceptar");
+    submitButton.size(width * 0.6, height * 0.05);
+    submitButton.position(width * 0.2, height * 0.5);
+    submitButton.style("font-size", "20px");
+
+    submitButton.mousePressed(handleSubmitName);
+    submitButton.touchStarted(handleSubmitName);
+
+    nameInput.mousePressed(() => nameInput.elt.focus());
+    nameInput.touchStarted(() => nameInput.elt.focus());
+  }
+}
+
+function handleSubmitName() {
+  let enteredName = nameInput.value().trim();
+  player.name = enteredName || "Jugador";
+  nameInput.remove();
+  submitButton.remove();
+  bgMusicIntro.stop();
+  bgMusicGame.loop();
+  gameState = "mapa";
+}
+
+function mousePressed() {
+  console.log('Mouse pressed at:', mouseX, mouseY);
+  handleInput(mouseX, mouseY);
+}
+
+function touchStarted() {
+  console.log('Touch started at:', touchX, touchY);
+  handleInput(touchX, touchY);
+  return false;
+}
+
+function handleInput(x, y) {
+  console.log(`handleInput called with x: ${x}, y: ${y}`);
   if (gameState === "intro") {
-    if (introFinished) {
-      currentParagraph++;
-      if (currentParagraph < introText.length) {
-        displayedText = "";
-        charIndex = 0;
-        introFinished = false;
-      } else {
-        gameState = "mapa";
-      }
-    }
+    handleIntroInput();
+  } else if (isPreBattle) {
+    handlePreBattleInput();
   } else if (gameState === "mapa") {
-    for (let i = 0; i < levels.length; i++) {
-      if (
-        mouseX > levels[i].x &&
-        mouseX < levels[i].x + 50 &&
-        mouseY > levels[i].y &&
-        mouseY < levels[i].y + 50 &&
-        levels[i].active
-      ) {
-        currentLevel = i;
-        gameState = "nivel";
-        resetGame();
-        pickNewWaste();
-      }
-    }
+    handleMapInput(x, y);
   } else if (gameState === "nivel") {
-    if (gameOver) {
-      if (player.hp > 0 && currentLevel + 1 < levels.length) {
-        levels[currentLevel + 1].active = true;
-      }
+    handleLevelInput(x, y);
+  } else if (gameState === "credits") {
+    handleCreditsInput();
+  } else if (gameState === "ending") {
+    handleEndingInput();
+  }
+}
+
+function handleIntroInput() {
+  console.log("handleIntroInput called");
+  if (currentParagraph < INTRO_TEXT.length - 1) {
+    currentParagraph++;
+    displayedText = "";
+    charIndex = 0;
+  } else {
+    introFinished = true;
+    gameState = "nameInput";
+    introFinished = false;
+    currentParagraph = 0;
+  }
+}
+
+function handlePreBattleInput() {
+  console.log("handlePreBattleInput called");
+  preBattleStep++;
+  if (preBattleStep === 3) {
+    enemy.name = "TerraNox";
+    bossMusicFinal.loop();
+    isPreBattle = false;
+    textSize(min(width, height) * 0.03); // Responsive text size
+    text("—Insensato... ¿Crees que puedes detenerme? \n Soy la sombra de la humanidad, \n la consecuencia de su codicia. " +
+      "Con cada fábrica que arde,\n con cada río envenenado,\n mi poder crece. " +
+      "TÚ no eres rival para mí.", width / 2, height / 2);
+    setTimeout(() => {
+      gameState = "nivel";
+    }, 3000);
+  }
+}
+
+function handleMapInput(x, y) {
+  console.log(`handleMapInput called with x: ${x}, y: ${y}`);
+  for (let i = 0; i < LEVELS.length; i++) {
+    let levelSize = min(width, height) * 0.1;
+    if (
+      x > LEVELS[i].x * width &&
+      x < LEVELS[i].x * width + width * 0.05 &&
+      y > LEVELS[i].y * height &&
+      y < LEVELS[i].y * height + height * 0.05 &&
+      LEVELS[i].active
+    ) {
+      console.log(`Level ${i} selected`);
+      currentLevel = i;
+      gameState = "nivel";
+      resetGame();
+      pickNewWaste();
+    }
+  }
+}
+
+function handleLevelInput(x, y) {
+  console.log(`handleLevelInput called with x: ${x}, y: ${y}`);
+  if (gameOver) 
+  {
+    console.log(`Game Over - Player HP: ${player.hp}, Current Level: ${currentLevel}, Total Levels: ${LEVELS.length}`);
+    if (player.hp > 0 && currentLevel + 1 < LEVELS.length) 
+    {
+      LEVELS[currentLevel + 1].active = true;
+    }
+    if (player.hp > 0 && currentLevel === LEVELS.length - 1) 
+    {
+      console.log("Transitioning to ending state");
+      gameState = "ending";
+      currentParagraph = 0;
+      displayedText = "";
+      charIndex = 0;
+    } else 
+    {
+      console.log("Transitioning back to map state");
       gameState = "mapa";
-    } else {
-      // 🔹 Detectar clic en los botes de basura
-      for (let bin of bins) {
-        if (
-          mouseX > bin.x &&
-          mouseX < bin.x + 80 &&
-          mouseY > 300 &&
-          mouseY < 380
-        ) {
-          checkWaste(bin.type);
-        }
+    }
+  } else {
+    for (let bin of BINS) {
+      if (
+        x > bin.x * width &&
+        x < bin.x * width + width * 0.1 &&
+        y > height * 0.75 &&
+        y < height * 0.75 + width * 0.1
+      ) {
+        console.log(`Bin ${bin.type} selected`);
+        checkWaste(bin.type);
       }
     }
   }
 }
 
+function handleCreditsInput() 
+{
+  console.log("handleCreditsInput called");
+  if (currentParagraph < CREDITS_TEXT.length - 1) { // Corrección: -1 para evitar error de índice
+    currentParagraph++;
+    displayedText = "";
+    charIndex = 0;
+  } else if (currentParagraph === CREDITS_TEXT.length - 1) {
+    // Después del último párrafo de los créditos, vuelve al mapa en el siguiente clic
+    gameState = "mapa";
+    currentParagraph = 0;
+    displayedText = "";
+    charIndex = 0;
+  }
+}
+
+function handleEndingInput() 
+{
+  console.log("handleEndingInput called");
+  if (currentParagraph < ENDING_TEXT.length - 1) 
+  { // Corrección: -1 para evitar error de índice
+    currentParagraph++;
+    displayedText = "";
+    charIndex = 0;
+  } else if (currentParagraph === ENDING_TEXT.length - 1) 
+  {
+    gameState = "credits";
+    currentParagraph = 0;
+    displayedText = "";
+    charIndex = 0;
+  }
+}
+
 function drawMap() {
-  textSize(20);
-  text("Selecciona un nivel", width / 2, 50);
-  for (let i = 0; i < levels.length; i++) {
-    let level = levels[i];
+  textSize(min(width, height) * 0.03); // Responsive text size
+  text("Selecciona un nivel", width / 2, height * 0.1);
+  for (let i = 0; i < LEVELS.length; i++) {
+    let level = LEVELS[i];
     fill(level.active ? "green" : "red");
-    rect(level.x, level.y, 50, 50);
+    rect(level.x * width, level.y * height, width * 0.05, height * 0.05);
     fill(255);
-    text(i + 1, level.x + 25, level.y + 25);
+    text(i + 1, level.x * width + width * 0.025, level.y * height + height * 0.02);
   }
 }
 
 function drawLevel() {
   if (gameOver) {
-    textSize(30);
+    textSize(min(width, height) * 0.04); // Responsive text size
     text(player.hp <= 0 ? "Perdiste!" : "Ganaste!", width / 2, height / 2);
-    textSize(20);
-    text("Haz clic para volver al mapa", width / 2, height / 2 + 40);
+    textSize(min(width, height) * 0.03); // Responsive text size
+    text("Haz clic para continuar", width / 2, height / 2 + 40);
     return;
   }
 
-  for (let bin of bins) {
-    fill(bin.color);
-    rect(bin.x, 300, 80, 80);
-    fill(255);
-    text(bin.type.toUpperCase(), bin.x + 40, 340);
+  if (isPreBattle) {
+    drawPreBattleText();
+    return;
   }
 
-  textSize(20);
-  text("Round " + round + " / " + maxRounds, width / 2, 30);
-  text("Desecho actual:", width / 2, 60);
-  text(currentWaste ? currentWaste.name : "Cargando...", width / 2, 90);
-  textSize(16);
-  text("Player HP: " + player.hp, 100, 20);
-  text("Enemy HP: " + enemy.hp, 700, 20);
+  drawBins();
+  drawStatus();
+  drawEnemy();
 }
 
-// 🔹 Nueva función para validar la respuesta
-function checkWaste(selectedType) 
+function drawCredits() 
 {
-  if (currentWaste && selectedType === currentWaste.type) 
-  {
-    console.log("¡Correcto! +2 de ataque");
-    enemy.hp-=2; // Reducir vida del enemigo si aciertas
+  textSize(min(width, height) * 0.03);
+  fill(255);
+  if (currentParagraph < CREDITS_TEXT.length) { // Corrección: usar .length directamente
+    if (charIndex < CREDITS_TEXT[currentParagraph].length) 
+    {
+      displayedText = CREDITS_TEXT[currentParagraph].substring(0, charIndex);
+      charIndex += TEXT_SPEED;
+    } else 
+    {
+      textSize(min(width, height) * 0.02);
+      text("Haz clic para continuar", width / 2, height / 2 + 40);
+    }
+    text(displayedText, width / 2, height / 2);
   } else 
   {
+    // Después de mostrar todos los créditos, puedes volver al mapa o a otro estado
+    gameState = "mapa";
+    currentParagraph = 0;
+    displayedText = "";
+    charIndex = 0;
+  }
+}
+
+function drawEnding() 
+{
+  textSize(min(width, height) * 0.03);
+  fill(255);
+  if (currentParagraph < ENDING_TEXT.length) 
+  { 
+    if (charIndex < ENDING_TEXT[currentParagraph].length) 
+    {
+      displayedText = ENDING_TEXT[currentParagraph].substring(0, charIndex);
+      charIndex += TEXT_SPEED;
+    } else 
+    {
+      textSize(min(width, height) * 0.02);
+      text("Haz clic para continuar", width / 2, height / 2 + 40);
+    }
+    text(displayedText, width / 2, height / 2);
+  } else 
+  {
+    // Después de mostrar todo el texto del epílogo, cambia al estado de créditos
+    gameState = "credits";
+    currentParagraph = 0;
+    displayedText = "";
+    charIndex = 0;
+  }
+}
+
+function drawPreBattleText() {
+  textSize(min(width, height) * 0.03); // Responsive text size
+  fill(255);
+  switch (preBattleStep) {
+    case 0:
+      text("Estás a punto de hacer historia, \n ¿te encuentras listo para enfrentarte a TerraNox?", width / 2, height / 2);
+      break;
+    case 1:
+      text("El aire es denso, cargado de humo y veneno." +
+        "Frente a ti, la colosal silueta de TerraNox se alza," +
+        "con su cuerpo hecho de hollín, \n metal corroído y llamas verdes que arden en su interior.\n", width / 2, height / 2);
+      break;
+    case 2:
+      text("Haz clic para continuar la batalla...", width / 2, height / 2 + 40);
+      break;
+  }
+}
+
+function drawBins() {
+  for (let bin of BINS) {
+    stroke(bin.color);
+    strokeWeight(4);
+    noFill();
+    rect(bin.x * width, height * 0.8, width * 0.12, height * 0.12, 10);
+    fill(255);
+    noStroke();
+    textSize(min(width, height) * 0.02); // Responsive text size
+    text(bin.type.toUpperCase(), bin.x * width + width * 0.06, height * 0.85);
+  }
+}
+
+
+function drawBins() {
+  for (let bin of BINS) {
+    stroke(bin.color);
+    strokeWeight(4);
+    noFill();
+    rect(bin.x * width, height * 0.8, width * 0.12, height * 0.12, 10);
+    fill(255);
+    noStroke();
+    textSize(min(width, height) * 0.02); // Responsive text size
+    text(bin.type.toUpperCase(), bin.x * width + width * 0.06, height * 0.85);
+  }
+}
+
+function drawStatus() {
+  textSize(min(width, height) * 0.03); // Responsive text size
+  text(`Round ${round} / ${MAX_ROUNDS}`, width / 2, height * 0.05);
+  text("Desecho actual:", width / 2, height * 0.15);
+  text(currentWaste ? currentWaste.name : "Cargando...", width / 2, height * 0.2);
+  textSize(min(width, height) * 0.025); // Responsive text size
+  text(`${player.name}'s HP: ${player.hp}`, width * 0.2, height * 0.05);
+  text(`${enemy.name}'s HP: ${enemy.hp}`, width * 0.8, height * 0.05);
+}
+
+function drawEnemy() 
+{
+  let enemyGif;
+  if (enemyTakingDamage) 
+  {
+    enemyGif = BOSSES[currentLevel].damageGif;
+  } else if (enemyAttacking) {
+    enemyGif = BOSSES[currentLevel].attackGif;
+  } else 
+  {
+    enemyGif = BOSSES[currentLevel].idleGif;
+  }
+  image(enemyGif, width / 2 - width * 0.1, height / 2 - height * 0.2, width * 0.2, height * 0.3);
+}
+
+function checkWaste(selectedType) 
+{
+  if (currentWaste && selectedType === currentWaste.type) {
+    console.log("¡Correcto! +2 de ataque");
+    enemy.hp -= 2;
+    enemyTakingDamage = true;
+    setTimeout(() => { enemyTakingDamage = false; }, 800);
+  } else {
     console.log("Incorrecto. -2 de vida");
-    player.hp-=2; // Reducir vida del jugador si se equivoca
+    player.hp -= 2;
+    enemyAttacking = true;
+    setTimeout(() => { enemyAttacking = false; }, 800);
   }
 
   round++;
-  if (round > maxRounds || player.hp <= 0 || enemy.hp <= 0) {
+  if (round > MAX_ROUNDS || player.hp <= 0 || enemy.hp <= 0) 
+  {
     gameOver = true;
   } else {
-    pickNewWaste(); // Elegir un nuevo desecho
+    pickNewWaste();
   }
 }
 
 function pickNewWaste() {
-  currentWaste = random(wasteItems.easy);
+  currentWaste = random(WASTE_ITEMS.easy);
 }
 
 function resetGame() {
   player.hp = 10;
-  enemy.hp = 10;
+  enemy.hp = BOSSES[currentLevel].maxHp || 10;
   round = 1;
   gameOver = false;
+
+  bgMusicGame.stop();
+  bgMusicIntro.stop();
+  bossMusic1.stop();
+  bossMusic2.stop();
+  preBossMusic.stop();
+  bossMusicFinal.stop();
+
+  if (currentLevel >= 0 && currentLevel < BOSSES.length) {
+    enemy.name = BOSSES[currentLevel].name;
+    idleAnimation = BOSSES[currentLevel].idleGif;
+    attackAnimation = BOSSES[currentLevel].attackGif;
+    BOSSES[currentLevel].music.loop();
+  } else {
+    enemy.name = "Enemigo Común";
+    idleAnimation = null;
+    attackAnimation = null;
+    bgMusicGame.loop();
+  }
 }
+
+function onMusicLoad() {
+  console.log("Music loaded correctly");
+}
+
+function onMusicError(err) {
+  console.error("Error loading music:", err);
+}
+
+console.log("Game initialized");
